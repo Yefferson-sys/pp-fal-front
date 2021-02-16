@@ -6,13 +6,9 @@ $bg-color-bf: #162C70;
     opacity: 1;
 }
 .bottom-footer {
-    height: 100px;
     background: var(--unnamed-color-162c70) 0% 0% no-repeat padding-box;
     background: $bg-color-bf 0% 0% no-repeat padding-box;
     opacity: 1;
-}
-.social-group {
-    display: inline-block;
 }
 .social-media {
     margin-bottom: 30px !important;
@@ -37,4 +33,22 @@ $bg-color-bf: #162C70;
     display: inline-block;
     margin-top: 20px;
     margin-left: 10px;
+}
+
+.social-group {
+    padding-top: 30px;
+}
+
+@media screen and (min-width: 768px) and (max-width: 898px) {
+    .social-media {
+        margin-left: 1%;
+        margin-right: 1%;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .social-group {
+        text-align: center !important;
+        padding-left: 0px;
+    }        
 }

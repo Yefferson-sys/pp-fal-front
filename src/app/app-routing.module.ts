@@ -2,11 +2,12 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthComponent } from './Components/auth/auth.component';
 import { HomeComponent } from './Pages/home/home.component';
+import { UserProfileComponent } from './Pages/user-profile/user-profile.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: HomeComponent
+    component: UserProfileComponent
   }
 ];
 
