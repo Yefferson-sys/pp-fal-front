@@ -221,7 +221,6 @@
 
 table {
     border: #162C70 solid 1px;
-    width: 100%;
     thead {
         background: var(--unnamed-color-162c70) 0% 0% no-repeat padding-box;
         background: #162C70 0% 0% no-repeat padding-box;
@@ -343,12 +342,15 @@ input[type=file] {
 }
 
 @media screen and (min-width: 767px) {
-    .tt-1 {
-        width: 70%;
-    }
-
-    .tt-2 {
-        width: 30%;
+    table {
+        width: 100%;
+        .tt-1 {
+            width: 70%;
+        }
+    
+        .tt-2 {
+            width: 30%;
+        }    
     }
     
     .modal-content {

@@ -14,6 +14,7 @@ import { AuthComponent } from './Components/auth/auth.component';
 import { HomeComponent } from './Pages/home/home.component';
 import { UserProfileComponent } from './Pages/user-profile/user-profile.component';
 import { AssignAppointmentComponent } from './Pages/assign-appointment/assign-appointment.component';
+import { AppointmentListComponent } from './Pages/appointment-list/appointment-list.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { AssignAppointmentComponent } from './Pages/assign-appointment/assign-ap
     AuthComponent,
     HomeComponent,
     UserProfileComponent,
-    AssignAppointmentComponent
+    AssignAppointmentComponent,
+    AppointmentListComponent
   ],
   imports: [
     BrowserModule,
