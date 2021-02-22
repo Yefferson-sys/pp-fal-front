@@ -10,6 +10,26 @@ import { UserProfileComponent } from './Pages/user-profile/user-profile.componen
 const routes: Routes = [
   {
     path: '',
+    component: AuthComponent
+  },
+  {
+    path: 'home',
+    component: HomeComponent
+  },
+  {
+    path: 'user-profile',
+    component: UserProfileComponent
+  },
+  {
+    path: 'assign-appointment',
+    component: AssignAppointmentComponent
+  },
+  {
+    path: 'appointment-list',
+    component: AppointmentListComponent
+  },
+  {
+    path: 'edit-appointment',
     component: EditAppointmentComponent
   }
 ];

@@ -76,7 +76,7 @@
                         <tr>
                             <td>06:00</td>
                             <td>SEDE NORTE</td>
-                            <td><button [ngClass]="(type == 'REASIGNAR')?'btn aa-b-aa aa-b-aa-r':'btn aa-b-aa  aa-b-aa-a'">{{type}} CITA</button></td>
+                            <td><button data-toggle="modal" data-target="#dynamicModal" [ngClass]="(type == 'REASIGNAR')?'btn aa-b-aa aa-b-aa-r':'btn aa-b-aa  aa-b-aa-a'">{{type}} CITA</button></td>
                         </tr>
                         <tr>
                             <td>07:00</td>
@@ -109,3 +109,5 @@
         </div>
     </div>
 </div>
+
+<app-dynamic-modal [type]="type" [optionsModal]="optionsModal"></app-dynamic-modal>

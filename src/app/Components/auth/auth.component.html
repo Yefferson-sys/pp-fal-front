@@ -4,10 +4,10 @@
         <!-- [ ./ sign options ] -->
         <div class="row row-ctrl">
             <div class="col-md-6 sign-in">
-                <a class="sign-font">INICIO DE SESIÓN</a>
+                <a routerLink="/" class="sign-font">INICIO DE SESIÓN</a>
             </div>
             <div class="col-md-6 sign-up">
-                <a class="sign-font">REGISTRATE</a>
+                <a routerLink="/" class="sign-font">REGISTRATE</a>
             </div>
         </div>
         <!-- [ ./ sign options ] -->
@@ -19,25 +19,31 @@
       
         <!-- [ ./ login inputs ] -->
         <div class="row login-input">
-            <img class="col-md-2 icon-login" src="assets/icons/svg/Login/account_circle-black-18dp.svg" alt="">
-            <div class="col-md-10 active fadeIn second">
+            <div class="col-md-12 active fadeIn second">
+                <span>
+                    <img class="icon-login" src="assets/icons/svg/Login/person-white-18dp.svg" alt="">
+                </span>
                 <input type="text" class="form-control"
                     name="user" placeholder="Digita tu número de documento"
                 />
             </div>
-            <img class="col-md-2 icon-login" src="assets/icons/svg/Login/vpn_key-black-18dp.svg" alt="">
-            <div class="col-md-10 active fadeIn third">
+            <div class="col-md-12 active fadeIn third">
+                <span>
+                    <img class="icon-login" src="assets/icons/svg/Login/vpn_key-white-18dp.svg" alt="">
+                </span>
                 <input type="password" class="form-control"
                     name="user" placeholder="Digita tu contraseña"
                 />
-                <img class="icon-login" src="assets/icons/svg/Login/visibility-black-18dp.svg" alt="">
+                <span>
+                    <img class="icon-login resp-ctrl" src="assets/icons/svg/Login/visibility-white-18dp.svg" alt="">
+                </span>
             </div>
         </div>
         <!-- [ /. login inputs ] -->
         
         <!-- Login Form -->
         <form>
-            <button type="submit" class="fadeIn fourth">Iniciar Sesión</button>
+            <button type="submit" routerLink="/home" class="fadeIn fourth">Iniciar Sesión</button>
         </form>
     
         <!-- Remind Passowrd -->
@@ -53,7 +59,7 @@
     <img  src="assets/img/png/Fondo-login.png" alt="">
 </div>
 <div class="img-doctor">
-    <img width="600" src="assets/img/png/happy-doctor-holding-clipboard-with-patients.png" alt="">
+    <img src="assets/img/png/happy-doctor-holding-clipboard-with-patients.png" alt="">
 </div>
 <!-- [ /. Background imgs ] -->
 

@@ -39,6 +39,10 @@ export class AppointmentInfoComponent implements OnInit {
       }
     ], 
   };
+  optionsModal: any = {
+    header: "CONFIRMAR REASIGNACIÓN DE ",
+    body: "¿Está seguro que desea reasignar cita?",
+  }
   constructor() { }
 
   ngOnInit(): void {

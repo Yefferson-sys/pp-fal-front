@@ -17,6 +17,7 @@ import { AssignAppointmentComponent } from './Pages/assign-appointment/assign-ap
 import { AppointmentListComponent } from './Pages/appointment-list/appointment-list.component';
 import { EditAppointmentComponent } from './Pages/edit-appointment/edit-appointment.component';
 import { AppointmentInfoComponent } from './Components/shareds/appointment-info/appointment-info.component';
+import { DynamicModalComponent } from './Components/shareds/dynamic-modal/dynamic-modal.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { AppointmentInfoComponent } from './Components/shareds/appointment-info/
     AssignAppointmentComponent,
     AppointmentListComponent,
     EditAppointmentComponent,
-    AppointmentInfoComponent
+    AppointmentInfoComponent,
+    DynamicModalComponent
   ],
   imports: [
     BrowserModule,
