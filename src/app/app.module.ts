@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 
-import { DatepickerModule, WavesModule } from 'ng-uikit-pro-standard';
+import { DatepickerModule, ToastModule, WavesModule } from 'ng-uikit-pro-standard';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 
 import { FormsModule } from '@angular/forms';
 
@@ -18,6 +20,7 @@ import { AppointmentListComponent } from './Pages/appointment-list/appointment-l
 import { EditAppointmentComponent } from './Pages/edit-appointment/edit-appointment.component';
 import { AppointmentInfoComponent } from './Components/shareds/appointment-info/appointment-info.component';
 import { DynamicModalComponent } from './Components/shareds/dynamic-modal/dynamic-modal.component';
+import { StaticModalsComponent } from './Components/shareds/static-modals/static-modals.component';
 
 @NgModule({
   declarations: [
@@ -32,14 +35,18 @@ import { DynamicModalComponent } from './Components/shareds/dynamic-modal/dynami
     AppointmentListComponent,
     EditAppointmentComponent,
     AppointmentInfoComponent,
-    DynamicModalComponent
+    DynamicModalComponent,
+    StaticModalsComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    DatepickerModule, 
-    WavesModule
+    DatepickerModule,
+    ToastModule.forRoot(), 
+    WavesModule,
+    BrowserAnimationsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

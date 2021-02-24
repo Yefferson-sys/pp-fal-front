@@ -1,20 +1,22 @@
 <!-- [ ./ Card login ] -->
 <div class="wrapper fadeInDown">
-    <div id="formContent">
+    <div id="formContent" [ngStyle]="{'height': (sign=='signUp')? '0%': ''}">
         <!-- [ ./ sign options ] -->
         <div class="row row-ctrl">
             <div class="col-md-6 sign-in">
-                <a routerLink="/" class="sign-font">INICIO DE SESIÓN</a>
+                <a routerLink="/" (click)="sign='signIn'" class="sign-font">INICIO DE SESIÓN</a>
             </div>
             <div class="col-md-6 sign-up">
-                <a routerLink="/" class="sign-font">REGISTRATE</a>
+                <a routerLink="/" (click)="sign='signUp'" class="sign-font">REGISTRATE</a>
             </div>
         </div>
         <!-- [ ./ sign options ] -->
 
         <!-- [ ./ info  ] -->
         <strong class="welcome-font">Bienvenido</strong><br>
-        <a class="info-result-font">Ingresa a tus resultados</a>
+        <a class="info-result-font"> 
+            {{ ( sign=='signIn' )? 'Ingresa a tus resultados' : 'Formulario de registro' }} 
+        </a>
         <!-- [ /. info ]-->
       
         <!-- [ ./ login inputs ] -->
@@ -23,32 +25,54 @@
                 <span>
                     <img class="icon-login" src="assets/icons/svg/Login/person-white-18dp.svg" alt="">
                 </span>
-                <input type="text" class="form-control"
-                    name="user" placeholder="Digita tu número de documento"
+                <input type="text" class="form-control" [(ngModel)]="auth.identification"
+                    name="user" placeholder="Digita tu número de documento" required
                 />
             </div>
-            <div class="col-md-12 active fadeIn third">
-                <span>
-                    <img class="icon-login" src="assets/icons/svg/Login/vpn_key-white-18dp.svg" alt="">
-                </span>
-                <input type="password" class="form-control"
-                    name="user" placeholder="Digita tu contraseña"
-                />
-                <span>
-                    <img class="icon-login resp-ctrl" src="assets/icons/svg/Login/visibility-white-18dp.svg" alt="">
-                </span>
+            <div class="col-md-12 fadeIn third">
+                <div *ngIf="sign=='signIn'" class="active">
+                    <span>
+                        <img class="icon-login" src="assets/icons/svg/Login/vpn_key-white-18dp.svg" alt="">
+                    </span>
+                    <input [type]="typeInput" class="form-control" [(ngModel)]="auth.password"
+                        name="user" placeholder="Digita tu contraseña" required
+                    />
+                    <span (click)="onTypeInput()">
+                        <img class="icon-login resp-ctrl" src="assets/icons/svg/Login/visibility-white-18dp.svg" alt="">
+                    </span>    
+                </div>
+                <br>
+                <p *ngIf="sign=='signUp'" class="text-center">
+                    <label>
+                        <input [(ngModel)]="term"
+                               (change)="onToggleCheck($event)"
+                               type="checkbox"
+                               name="checkTerm">
+                        <span class="text-style">&nbsp;&nbsp;He Leído las Políticas de Seguridad</span>
+                    </label>
+                </p>
+                <p *ngIf="sign=='signUp'" class="text-center">Por favor lee detenidamente las
+                    <u>
+                        <i><a routerLink="/" class="waves-effect waves-light" data-toggle="modal" data-target="#recommendation">Recomendaciones de uso</a></i>
+                    </u> y las
+                    <u>
+                        <i><a routerLink="/" class="waves-effect waves-light" data-toggle="modal" data-target="#privacy">Políticas de Seguridad</a></i>
+                    </u>
+                </p>
             </div>
         </div>
         <!-- [ /. login inputs ] -->
         
         <!-- Login Form -->
         <form>
-            <button type="submit" routerLink="/home" class="fadeIn fourth">Iniciar Sesión</button>
+            <button type="submit" (click)="onSubmitSign(sign)" class="fadeIn fourth">
+                {{ ( sign=='signIn' )? 'Iniciar Sesión' : 'Registrarse' }}
+            </button>
         </form>
     
         <!-- Remind Passowrd -->
         <div id="formFooter">
-            <a class="a-ctrl underlineHover" href="#">¿Haz olvidado tu contraseña?</a>
+            <a class="a-ctrl underlineHover" data-toggle="modal" routerLink="/" data-target="#passRecovery">¿Haz olvidado tu contraseña?</a>
         </div>
     </div>
 </div>
@@ -63,3 +87,4 @@
 </div>
 <!-- [ /. Background imgs ] -->
 
+<app-static-modals></app-static-modals>
