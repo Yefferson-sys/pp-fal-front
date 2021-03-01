@@ -24,7 +24,9 @@ export class AuthComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    
+    if(localStorage.getItem('token')) {
+      this.router.navigate(['home']);
+    }
   }
 
   onAuth() {
@@ -35,6 +37,7 @@ export class AuthComponent implements OnInit {
         if(success['success']) {
           localStorage.setItem('token', success['data']['token']);
           localStorage.setItem('person', JSON.stringify(success['person']));
+          localStorage.setItem('identification', success['user']['identification']);
           this.toastSvc.success("Bienvenido(a) "+success['person']['name'], "¡Verificación exitosa!", options);
           this.router.navigate(['home']);
         } else {
@@ -68,7 +71,7 @@ export class AuthComponent implements OnInit {
     const options = {opacity: 1, enableHtml: true};
     const verify = this.onInputState(type);
     if( verify == true) {
-      this.toastSvc.info('Validando información ...', '¡Un momento por favor!');
+      this.toastSvc.info('Validando información ...', '¡Un momento por favor!', options);
       if (type == 'signIn') {
         this.onAuth();
       } else {

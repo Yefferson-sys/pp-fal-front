@@ -2,15 +2,15 @@
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">{{optionsModal.header}} CITA</h4>
+                <h4 class="modal-title">{{optionsModal?.header}}</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div [ngClass]="(type == 'CANCELAR')?'modal-body text-left':'modal-body'">
-                {{optionsModal.body}}
+                {{optionsModal?.body}}
                 <textarea *ngIf="type == 'CANCELAR'" name="description" id="description" cols="40" rows="5" placeholder="Escribe aqui porque deseas cancelar la cita ..."></textarea>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-confirm" data-dismiss="modal">
+                <button class="btn btn-confirm" data-dismiss="modal" (click)="onConfirm()">
                     <span><img width="20" src="assets/icons/svg/dynamicModal/check_circle-white-18dp.svg" alt="Confirm Icon">&nbsp;SI</span>
                 </button>
                 <button class="btn btn-denied" data-dismiss="modal">

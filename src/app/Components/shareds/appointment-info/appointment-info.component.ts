@@ -40,7 +40,7 @@ export class AppointmentInfoComponent implements OnInit {
     ], 
   };
   optionsModal: any = {
-    header: "CONFIRMAR REASIGNACIÓN DE ",
+    header: "CONFIRMAR REASIGNACIÓN DE CITA",
     body: "¿Está seguro que desea reasignar cita?",
   }
   constructor() { }

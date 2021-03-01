@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-dynamic-modal',
@@ -8,9 +8,12 @@ import { Component, Input, OnInit } from '@angular/core';
 export class DynamicModalComponent implements OnInit {
   @Input() optionsModal: any;
   @Input() type: string;
+  @Output() confirm = new EventEmitter<string>();
   constructor() { }
 
   ngOnInit(): void {
   }
-
+  onConfirm() {
+    this.confirm.emit(this.type);
+  }
 }

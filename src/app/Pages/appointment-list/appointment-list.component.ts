@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AppointmentListComponent implements OnInit {
   optionsModal: any = {
-    header: "CONFIRMAR CANCELACIÓN DE ",
+    header: "CONFIRMAR CANCELACIÓN DE CITA",
     body: "Motivo de Cancelación de la cita:",
   }
   type: string = "CANCELAR";
