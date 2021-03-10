@@ -46,3 +46,19 @@ export interface DocumentInfo {
 	size_format?: string,                                
 	url?: string,                                        
 }
+
+export interface Patient {
+	id?: number,						
+	people_id?: number,					
+	users_id?: number,					
+	created?: string,					
+	modified?: string,					
+	zone_id?: string,					
+	regimes_id?: number,				
+	permanent_diagnostic?: string,			
+	eps_id?: number,					
+	affiliation_type?: number,			
+	education_level_id?: number,		
+	ocupations_id?: number,				
+	ethics_id?: number				
+}

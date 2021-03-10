@@ -3,6 +3,17 @@
     opacity: 1;
 }
 
+select, input[type=file] {
+    cursor: pointer;
+    z-index: 999;
+}
+
+.dropdown-item:hover {
+    cursor: pointer;
+    background-color: #3DB0F8;
+    color: whitesmoke;
+}
+
 .container {
     max-width: 1480px;
 }
@@ -15,6 +26,13 @@
     margin: 15px;
     border-radius: 5px 5px 5px 5px;
     border: #585757 solid 1px;
+}
+
+.dropdown-menu {
+    max-width: 800px;
+    max-height: 300px;
+    overflow-x: scroll;
+    overflow-y: scroll;
 }
 
 .aa-h-title {
@@ -139,7 +157,21 @@
     padding-top: 20px;
 }
 
-.entity-text {
+.btn-delete {
+    background: #162C70 0% 0% no-repeat padding-box;
+    box-shadow: 0px 3px 6px #00000029;
+    border-radius: 5px;
+    height: 28px;
+    margin-top: -8px;
+    opacity: 1;
+    .file-icon {
+        width: 20px;
+        margin-top: -13px;
+        opacity: 1;
+    }
+}
+
+.entity-text, .center-text {
     height: 38px;
     width: 82%;
     background: #F3F2F2 0% 0% no-repeat padding-box;
@@ -150,11 +182,14 @@
     text-align: left;
     font: normal normal normal 16px/15px Roboto;
     letter-spacing: 0px;
-    color: #B7B7B7; 
+    color: #585757;
+    &::placeholder {
+        color: #B7B7B7;
+    }
     opacity: 1;
 }
 
-.select_entity {
+.select_entity, .select_center {
     position: absolute;
     left: 1px;
     width: 79%;
@@ -271,7 +306,6 @@ table {
         .tt-1 {
             width: 70%;
         }
-    
         .tt-2 {
             width: 30%;
         }    
@@ -288,4 +322,8 @@ table {
         -ms-transform: translateY(-50%);
         transform: translateY(-50%);    
     }
+}
+
+.show-ctrl {
+    display: block !important;
 }

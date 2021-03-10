@@ -8,7 +8,7 @@
     <div class="collapse navbar-collapse justify-content-between" id="nav" style="background-color: transparent;">
         <div class="row" style="width: 100%;">
             <div class="col-md-4 header-text">
-                <p *ngIf="user">
+                <p *ngIf="user" routerLink="/home" style="cursor: pointer;">
                     <strong class="welcome">Bienvenido(a):</strong><br>
                     <span class="user-name">{{user}}</span>
 

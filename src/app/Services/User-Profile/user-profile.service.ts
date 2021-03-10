@@ -24,6 +24,9 @@ export class UserProfileService {
   getPeople(id: string): Observable<any> {
     return this.http.post(this.api+'WsUsers/getPeople.json', {id}, this.httpHeaders);
   }
+  getPatient(peopleId: number): Observable<any>  {
+    return this.http.post(this.api+'WsUsers/getPatient.json', {peopleId}, this.httpHeaders);
+  }
   getPhoto(id: string): Observable<any> {
     return this.http.post(this.api+'Orders/getPhotoPeople.json', {id}, this.httpHeaders);
   }

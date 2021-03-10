@@ -6,25 +6,25 @@
         <span class="aa-b-a"><b>Afiliado(a):</b></span>
     </div>
     <div class="col-md-4">
-        <span class="aa-b-n">YEFFERSON DIGLEY CALEÑO BARRERA</span>
+        <span class="aa-b-n" *ngIf="people?.last_name != null">{{ people?.first_name + ' ' + people?.middle_name + ' ' + people?.last_name + ' ' + people?.last_name_two }}</span>
     </div>
     <div class="col-md-2">
         <span class="aa-b-a"><b>Número de CUPS:</b></span>
     </div>
     <div class="col-md-4">
-        <span class="aa-b-n">881132</span>
+        <span class="aa-b-n">{{studio?.cup}}</span>
     </div>
     <div class="col-md-2">
         <span class="aa-b-a"><b>Entidad:</b></span>
     </div>
     <div class="col-md-4">
-        <span class="aa-b-n">SURA EPS</span>
+        <span class="aa-b-n">{{eps?.name}}</span>
     </div>
     <div class="col-md-2">
         <span class="aa-b-a"><b>Estudio:</b></span>
     </div>
     <div class="col-md-4">
-        <span class="aa-b-n">ECOGRAFIA DE CUELLO</span>
+        <span class="aa-b-n">{{studio?.name}}</span>
     </div>
     <div class="col-md-2">
         <span class="aa-b-a"><b>Número de autorización:</b></span>
@@ -50,10 +50,10 @@
 </div><br>
 <div class="row">
     <div class="col-md-4">
-        <span class="aa-b-a"><b>Fecha:</b></span>&nbsp;&nbsp;
+        <span class="aa-b-a"><b>Seleccionar Fecha:</b></span>&nbsp;&nbsp;
         <span>
-            <mdb-date-picker [locale]="'es'" [inline]="true" name="mydate" [options]="myDatePickerOptions" 
-            [openOnFocus]="true" inlineIcon="" [placeholder]="'Seleccionar fecha ... '" [(ngModel)]="model" required
+            <mdb-date-picker [locale]="'es'" [inline]="true" name="mydate" [options]="myDatePickerOptions" (dateChanged)="onDateChange($event)"
+            [openOnFocus]="true" inlineIcon="" [placeholder]="'Seleccionar fecha ... '" [(ngModel)]="model" required (inputFocusBlur)="onInputFocusBlur($event)"
             ></mdb-date-picker> 
         </span>
     </div>
@@ -63,7 +63,7 @@
     </div>
     <div class="col-md-8">
         <div class="table-responsive">
-            <div class="table text-center">
+            <div class="table text-center" style="max-height: 400px; overflow-y: scroll;">
                 <table>
                     <thead class="text-center">
                         <tr>
@@ -73,35 +73,16 @@
                         </tr>
                     </thead>
                     <tbody class="text-center">
-                        <tr>
-                            <td>06:00</td>
-                            <td>SEDE NORTE</td>
-                            <td><button data-toggle="modal" data-target="#dynamicModal" [ngClass]="(type == 'REASIGNAR')?'btn aa-b-aa aa-b-aa-r':'btn aa-b-aa  aa-b-aa-a'">{{type}} CITA</button></td>
+                        <tr *ngIf="!appointmentShedule">
+                            <p class="info-table">Buscando horario disponible ... </p>
                         </tr>
-                        <tr>
-                            <td>07:00</td>
-                            <td>SEDE SUR</td>
-                            <td><button [ngClass]="(type == 'REASIGNAR')?'btn aa-b-aa aa-b-aa-r':'btn aa-b-aa  aa-b-aa-a'">{{type}} CITA</button></td>
+                        <tr *ngIf="appointmentShedule?.length == 0">
+                            <p class="info-table">Por favor, selecciona otra fecha. </p>
                         </tr>
-                        <tr>
-                            <td>08:00</td>
-                            <td>SEDE NORTE</td>
-                            <td><button [ngClass]="(type == 'REASIGNAR')?'btn aa-b-aa aa-b-aa-r':'btn aa-b-aa  aa-b-aa-a'">{{type}} CITA</button></td>
-                        </tr>
-                        <tr>
-                            <td>09:00</td>
-                            <td>SEDE SUR</td>
-                            <td><button [ngClass]="(type == 'REASIGNAR')?'btn aa-b-aa aa-b-aa-r':'btn aa-b-aa  aa-b-aa-a'">{{type}} CITA</button></td>
-                        </tr>
-                        <tr>
-                            <td>10:00</td>
-                            <td>SEDE NORTE</td>
-                            <td><button [ngClass]="(type == 'REASIGNAR')?'btn aa-b-aa aa-b-aa-r':'btn aa-b-aa  aa-b-aa-a'">{{type}} CITA</button></td>
-                        </tr>
-                        <tr>
-                            <td>11:00</td>
-                            <td>SEDE SUR</td>
-                            <td><button [ngClass]="(type == 'REASIGNAR')?'btn aa-b-aa aa-b-aa-r':'btn aa-b-aa  aa-b-aa-a'">{{type}} CITA</button></td>
+                        <tr [ngClass]="(shedule.state == 'Available' && shedule.place == center.name)?'': 'hide-ctrl'" *ngFor="let shedule of appointmentShedule; let is = index;">
+                            <td>{{shedule.date.split(' ')[1]}}</td>
+                            <td>{{shedule.place.toUpperCase()}}</td>
+                            <td><button (click)="onAssignAppoinment(shedule)"  data-toggle="modal" data-target="#dynamicModal" [ngClass]="(type == 'REASIGNAR')?'btn aa-b-aa aa-b-aa-r':'btn aa-b-aa  aa-b-aa-a'">{{type}} CITA</button></td>
                         </tr>
                     </tbody>
                 </table>
@@ -109,5 +90,4 @@
         </div>
     </div>
 </div>
-
-<app-dynamic-modal [type]="type" [optionsModal]="optionsModal"></app-dynamic-modal>
+<app-dynamic-modal [type]="type" [optionsModal]="optionsModal" (confirm)="onConfirm($event)" (denied)="onDenied($event)"></app-dynamic-modal>
