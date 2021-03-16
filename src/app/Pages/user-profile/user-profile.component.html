@@ -1,0 +1,102 @@
+<div class="user-profile">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="title-header">PERFIL DE USUARIO</div>
+                            <div class="card-header"></div>
+                        </div>
+                        <div class="col-md-2 text-center info-user">
+                            <img class="img-user" src="assets/img/png/cat-profile.png" alt="User Photo">
+                            <img class="icons add-icon" src="assets/icons/svg/userProfile/add_a_photo-white-18dp.svg" alt="Add Photo Icon">
+                            <div class="img-text">
+                                Adjuntar foto
+                            </div>
+                        </div>
+                        <div class="col-md-5 info-user" style="padding: 0px;">
+                            <img class="icons user-icon" src="assets/icons/svg/Login/person-white-18dp.svg" alt="">&nbsp;
+                            <span class="info-title"><strong>DATOS DEL USUARIO</strong></span>
+                            <div class="inputs-info">
+                                <div class="active">
+                                    <input type="text" class="form-control"
+                                        name="user" placeholder="Nombre Completo:"
+                                    />
+                                </div>
+                                <div class="active">
+                                    <input type="text" class="form-control"
+                                        name="document_type" placeholder="Tipo de documento:" readonly
+                                    />
+                                    <span class="open-select"></span>
+                                    <select class="select_doc_type" name="select_doc_type">
+                                        <option value="0">Cédula de Ciudadanía</option>
+                                        <option value="1">Tarjeta de Identidad</option>
+                                        <option value="2">Registro Civil</option>
+                                    </select>
+                                </div>
+                                <div class="active">
+                                    <input type="text" class="form-control"
+                                        name="street_address" placeholder="Dirección:"
+                                    />
+                                </div>
+                                <div class="active">
+                                    <input type="text" class="form-control"
+                                        name="sms_phone" placeholder="Celular SMS:"
+                                    />
+                                </div>
+                                <div class="active">
+                                    <input type="text" class="form-control"
+                                        name="gender" placeholder="Género:" readonly
+                                    />
+                                    <span class="open-select"></span>
+                                    <select class="select_gender" name="select_doc_type">
+                                        <option value="0">Masculino</option>
+                                        <option value="1">Femenino</option>
+                                        <option value="2">Otro</option>
+                                    </select>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        <div class="col-md-5 info-user">
+                            <div class="inputs-info-right">
+                                <div class="active">
+                                    <input type="text" class="form-control"
+                                        name="birth_date" placeholder="Fecha de nacimiento:"
+                                    />
+                                </div>
+                                <div class="active">
+                                    <input type="text" class="form-control"
+                                        name="document_number" placeholder="Cédula de Ciudadanía:"
+                                    />
+                                </div>
+                                <div class="active">
+                                    <input type="text" class="form-control"
+                                        name="phone" placeholder="Teléfono:"
+                                    />
+                                </div>
+                                <div class="active">
+                                    <input type="text" class="form-control"
+                                        name="e_mail" placeholder="Correo electrónico:"
+                                    />
+                                </div>
+                                <div>
+                                    <label for="document_file"><strong>Adjuntar Cédula de Ciudadanía</strong></label>
+                                    <input class="select-file form-control" placeholder="Seleccionar archivo" readonly/>
+                                    <input type="file" class="form-control upload-file-hide" accept="application/pdf,image/*">
+                                    <div class="upload-file">
+                                        <img class="file-icon" src="assets/icons/svg/userProfile/feed-white-18dp.svg" alt="">
+                                        <span class="upload-text">Adjuntar</span>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

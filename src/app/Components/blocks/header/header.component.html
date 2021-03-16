@@ -1,8 +1,29 @@
-<div class="top-header text-center" role="banner">
-    <img
-        class="fal-logo"
-        alt="FAL Logo"
-        src="assets/img/png/logo_transparente_fundacion_alejandro_londono-1536x277.png"
+<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top">
+    <button style="z-index: 9;" type="button" class="navbar-toggler bg-light" data-toggle="collapse" data-target="#nav">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <img class="img-responsive logo-responsive" 
+        src="assets/img/png/logo_transparente_fundacion_alejandro_londono-1536x277.png" alt="Fal logo"
     />
-</div>
-<div class="bottom-header"></div>
+    <div class="collapse navbar-collapse justify-content-between" id="nav" style="background-color: transparent;">
+        <div class="row" style="width: 100%;">
+            <div class="col-md-4 header-text">
+                <p>
+                    <strong class="welcome">Bienvenido(a):</strong><br>
+                    <span class="user-name">Yefferson Caleño </span>
+
+                </p>
+            </div>
+            <div class="col-md-4 text-center img-ctrl">
+                <img class="img-responsive fal-logo" src="assets/img/png/logo_transparente_fundacion_alejandro_londono-1536x277.png" alt="Fal logo">
+            </div>
+            <div id="signout" class="col-md-4 text-right header-text">
+                <p class="logout">
+                    <span><img class="icons" src="assets/icons/svg/Login/power_settings_new-white-18dp.svg" alt="Logout Icon"></span> &nbsp; 
+                    <strong>Cerrar Sesión</strong>
+                </p>
+            </div>
+        </div>
+    </div>
+</nav>
+<nav class="navbar navbar-expand-md fixed-top bottom-header"></nav>
