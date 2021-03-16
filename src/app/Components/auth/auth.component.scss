@@ -173,7 +173,19 @@ input[type=button]:active, button[type=submit]:active, input[type=reset]:active 
     -ms-transform: scale(0.95);
     transform: scale(0.95);
 }
-  
+.text-style {
+    font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-normal) var(--unnamed-font-size-18)/var(--unnamed-line-spacing-34) var(--unnamed-font-family-roboto);
+    letter-spacing: var(--unnamed-character-spacing-0);
+    text-align: left !important;
+    font: normal normal normal 12px/24px 'Roboto';
+    letter-spacing: 0px;
+    color: #848484;
+    opacity: 1;
+    background-color: transparent;
+    border: transparent;
+    text-decoration: none;
+}
+
 input[type=text], input[type=password] {
     background-color: #f6f6f6;
     border: none;
@@ -285,6 +297,12 @@ input[type=text]:placeholder {
     -webkit-animation-delay: 0.8s;
     -moz-animation-delay: 0.8s;
     animation-delay: 0.8s;
+    text-align: left !important;
+    .resp-ctrl {
+        position: absolute;
+        top: 16px;
+        right: 49px;
+    }
 }
   
 .fadeIn.fourth {
@@ -304,7 +322,7 @@ input[type=text]:placeholder {
     bottom: -10px;
     width: 0;
     height: 2px;
-    background-color: #56baed;
+    /*background-color: #56baed;*/
     content: "";
     transition: width 0.2s;
 }

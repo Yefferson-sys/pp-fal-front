@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, Event, NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -6,7 +7,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-  constructor() { }
+  user: string;
+  constructor(
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
     if (matchMedia) {
@@ -27,9 +31,22 @@ export class HeaderComponent implements OnInit {
         }
       }
     }
+
+    this.router.events.subscribe((event: Event)=> {
+      if (event instanceof NavigationEnd) {
+        if(localStorage.getItem('token')) {
+          console.log(JSON.parse(localStorage.getItem('person')))
+          this.user = JSON.parse(localStorage.getItem('person'))['name'];
+        } else {
+          this.router.navigate(['']);
+        }
+      }
+    })
   }
 
-  onMenuCtrl() {
-    
+  onLogout() {
+    localStorage.clear();
+    this.router.navigate(['']);
+    this.user = undefined;
   }
 }
