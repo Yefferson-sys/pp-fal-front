@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
+import { DatepickerModule, WavesModule } from 'ng-uikit-pro-standard';
+
 import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -11,6 +13,8 @@ import { NgInitComponent } from './Pages/ng-init/ng-init.component';
 import { AuthComponent } from './Components/auth/auth.component';
 import { HomeComponent } from './Pages/home/home.component';
 import { UserProfileComponent } from './Pages/user-profile/user-profile.component';
+import { AssignAppointmentComponent } from './Pages/assign-appointment/assign-appointment.component';
+import { AppointmentListComponent } from './Pages/appointment-list/appointment-list.component';
 
 @NgModule({
   declarations: [
@@ -20,12 +24,16 @@ import { UserProfileComponent } from './Pages/user-profile/user-profile.componen
     NgInitComponent,
     AuthComponent,
     HomeComponent,
-    UserProfileComponent
+    UserProfileComponent,
+    AssignAppointmentComponent,
+    AppointmentListComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    DatepickerModule, 
+    WavesModule
   ],
   providers: [],
   bootstrap: [AppComponent]
