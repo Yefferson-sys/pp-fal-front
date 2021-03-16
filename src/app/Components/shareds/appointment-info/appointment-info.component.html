@@ -1,0 +1,113 @@
+<div class="aa-b-sub-title">
+    INFORMACIÓN DEL AFILIADO
+</div><br>
+<div class="row">
+    <div class="col-md-2">
+        <span class="aa-b-a"><b>Afiliado(a):</b></span>
+    </div>
+    <div class="col-md-4">
+        <span class="aa-b-n">YEFFERSON DIGLEY CALEÑO BARRERA</span>
+    </div>
+    <div class="col-md-2">
+        <span class="aa-b-a"><b>Número de CUPS:</b></span>
+    </div>
+    <div class="col-md-4">
+        <span class="aa-b-n">881132</span>
+    </div>
+    <div class="col-md-2">
+        <span class="aa-b-a"><b>Entidad:</b></span>
+    </div>
+    <div class="col-md-4">
+        <span class="aa-b-n">SURA EPS</span>
+    </div>
+    <div class="col-md-2">
+        <span class="aa-b-a"><b>Estudio:</b></span>
+    </div>
+    <div class="col-md-4">
+        <span class="aa-b-n">ECOGRAFIA DE CUELLO</span>
+    </div>
+    <div class="col-md-2">
+        <span class="aa-b-a"><b>Número de autorización:</b></span>
+    </div>
+    <div class="col-md-4">
+        <span class="aa-b-n">0001237</span>
+    </div>
+    <div class="col-md-2">
+        <span class="aa-b-a"><b>Adjuntar orden:</b></span>
+    </div>
+    <div class="col-md-4">
+        <input class="select-file form-control" placeholder="Seleccionar archivo" readonly/>
+        <input type="file" class="form-control upload-file-hide" accept="application/pdf,image/*">
+        <div class="upload-file">
+            <img class="file-icon" src="assets/icons/svg/userProfile/feed-white-18dp.svg" alt="">
+            <span class="upload-text">Adjuntar</span>
+        </div>
+    </div>
+</div>
+<br><br><br>
+<div class="aa-b-sub-title">
+    INFORMACIÓN DE CITAS
+</div><br>
+<div class="row">
+    <div class="col-md-4">
+        <span class="aa-b-a"><b>Fecha:</b></span>&nbsp;&nbsp;
+        <span>
+            <mdb-date-picker [locale]="'es'" [inline]="true" name="mydate" [options]="myDatePickerOptions" 
+            [openOnFocus]="true" inlineIcon="" [placeholder]="'Seleccionar fecha ... '" [(ngModel)]="model" required
+            ></mdb-date-picker> 
+        </span>
+    </div>
+    <div class="col-md-8"></div>
+    <div class="col-md-4">
+
+    </div>
+    <div class="col-md-8">
+        <div class="table-responsive">
+            <div class="table text-center">
+                <table>
+                    <thead class="text-center">
+                        <tr>
+                            <th>HORAS (FORMATO 24 HORAS)</th>
+                            <th>LUGAR DE ATENCIÓN</th>
+                            <th>MARTES 2021/01/2021</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-center">
+                        <tr>
+                            <td>06:00</td>
+                            <td>SEDE NORTE</td>
+                            <td><button data-toggle="modal" data-target="#dynamicModal" [ngClass]="(type == 'REASIGNAR')?'btn aa-b-aa aa-b-aa-r':'btn aa-b-aa  aa-b-aa-a'">{{type}} CITA</button></td>
+                        </tr>
+                        <tr>
+                            <td>07:00</td>
+                            <td>SEDE SUR</td>
+                            <td><button [ngClass]="(type == 'REASIGNAR')?'btn aa-b-aa aa-b-aa-r':'btn aa-b-aa  aa-b-aa-a'">{{type}} CITA</button></td>
+                        </tr>
+                        <tr>
+                            <td>08:00</td>
+                            <td>SEDE NORTE</td>
+                            <td><button [ngClass]="(type == 'REASIGNAR')?'btn aa-b-aa aa-b-aa-r':'btn aa-b-aa  aa-b-aa-a'">{{type}} CITA</button></td>
+                        </tr>
+                        <tr>
+                            <td>09:00</td>
+                            <td>SEDE SUR</td>
+                            <td><button [ngClass]="(type == 'REASIGNAR')?'btn aa-b-aa aa-b-aa-r':'btn aa-b-aa  aa-b-aa-a'">{{type}} CITA</button></td>
+                        </tr>
+                        <tr>
+                            <td>10:00</td>
+                            <td>SEDE NORTE</td>
+                            <td><button [ngClass]="(type == 'REASIGNAR')?'btn aa-b-aa aa-b-aa-r':'btn aa-b-aa  aa-b-aa-a'">{{type}} CITA</button></td>
+                        </tr>
+                        <tr>
+                            <td>11:00</td>
+                            <td>SEDE SUR</td>
+                            <td><button [ngClass]="(type == 'REASIGNAR')?'btn aa-b-aa aa-b-aa-r':'btn aa-b-aa  aa-b-aa-a'">{{type}} CITA</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-dynamic-modal [type]="type" [optionsModal]="optionsModal"></app-dynamic-modal>

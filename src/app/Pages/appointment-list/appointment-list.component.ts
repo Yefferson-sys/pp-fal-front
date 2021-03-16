@@ -6,7 +6,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./appointment-list.component.scss']
 })
 export class AppointmentListComponent implements OnInit {
-
+  optionsModal: any = {
+    header: "CONFIRMAR CANCELACIÓN DE ",
+    body: "Motivo de Cancelación de la cita:",
+  }
+  type: string = "CANCELAR";
   constructor() { }
 
   ngOnInit(): void {

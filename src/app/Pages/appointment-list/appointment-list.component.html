@@ -33,7 +33,7 @@
                                                     <td><b>26/01/2021</b></td>
                                                     <td><b>10:00 A.M</b></td>
                                                     <td> 
-                                                        <button class="btn">
+                                                        <button  data-toggle="modal" data-target="#dynamicModal" class="btn">
                                                             <img width="30" src="assets/icons/svg/appointmentManagement/icono cerrar rojo.svg" alt="Icon Cancel">
                                                         </button>
                                                     </td>
@@ -59,7 +59,7 @@
                                                     <td><b>26/01/2021</b></td>
                                                     <td><b>09:00 A.M</b></td>
                                                     <td> 
-                                                        <button class="btn">
+                                                        <button  data-toggle="modal" data-target="#dynamicModal" class="btn">
                                                             <img width="30" src="assets/icons/svg/appointmentManagement/icono cerrar rojo.svg" alt="Icon Cancel">
                                                         </button>
                                                     </td>
@@ -103,3 +103,5 @@
         </div>
     </div>
 </div>
+
+<app-dynamic-modal [type]="type" [optionsModal]="optionsModal"></app-dynamic-modal>

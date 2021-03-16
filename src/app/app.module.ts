@@ -15,6 +15,9 @@ import { HomeComponent } from './Pages/home/home.component';
 import { UserProfileComponent } from './Pages/user-profile/user-profile.component';
 import { AssignAppointmentComponent } from './Pages/assign-appointment/assign-appointment.component';
 import { AppointmentListComponent } from './Pages/appointment-list/appointment-list.component';
+import { EditAppointmentComponent } from './Pages/edit-appointment/edit-appointment.component';
+import { AppointmentInfoComponent } from './Components/shareds/appointment-info/appointment-info.component';
+import { DynamicModalComponent } from './Components/shareds/dynamic-modal/dynamic-modal.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +29,10 @@ import { AppointmentListComponent } from './Pages/appointment-list/appointment-l
     HomeComponent,
     UserProfileComponent,
     AssignAppointmentComponent,
-    AppointmentListComponent
+    AppointmentListComponent,
+    EditAppointmentComponent,
+    AppointmentInfoComponent,
+    DynamicModalComponent
   ],
   imports: [
     BrowserModule,
