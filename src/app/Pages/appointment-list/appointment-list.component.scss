@@ -3,6 +3,10 @@
     opacity: 1;
 }
 
+.hide-ctrl {
+    display: none;
+}
+
 .card {
     margin-top: 190px;
     margin-bottom: 73px;
@@ -77,6 +81,16 @@ table {
         letter-spacing: 0px;
         color: #162C70;
         opacity: 1;
+        .info-table {
+            padding: 40px;
+            font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-normal) var(--unnamed-font-size-16)/var(--unnamed-line-spacing-15) var(--unnamed-font-family-roboto);
+            letter-spacing: var(--unnamed-character-spacing-0);
+            text-align: center;
+            font: normal normal normal 16px/15px Roboto;
+            letter-spacing: 0px;
+            color: #B7B7B7;
+            opacity: 1;
+        }
         tr {
             border: #585757 solid 1px;
             td {
@@ -88,6 +102,23 @@ table {
     }
     tfoot {
         display: none;
+    }
+}
+
+.pagination {
+    font: italic normal var(--unnamed-font-weight-medium) var(--unnamed-font-size-16)/var(--unnamed-line-spacing-25) var(--unnamed-font-family-roboto);
+    letter-spacing: var(--unnamed-character-spacing-0);
+    color: var(--unnamed-color-162c70);
+    text-align: left;
+    font: italic normal normal 16px/25px Roboto;
+    letter-spacing: 0px;
+    color: #162C70;
+    opacity: 1;
+    span {
+        font: italic normal normal 20px/25px Roboto;
+    }
+    a {
+        cursor: pointer;
     }
 }
 

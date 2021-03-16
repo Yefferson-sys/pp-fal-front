@@ -23,36 +23,49 @@
                                                     <th>CANCELAR</th>
                                                     <th>REASIGNAR</th>
                                                     <th>VER INSTRUCTIVO</th>
+                                                    <!--
                                                     <th>ESTADO</th>
+                                                    -->
                                                 </tr>
                                             </thead>
                                             <tbody class="text-center">
-                                                <tr>
-                                                    <td><b>881132</b></td>
-                                                    <td><b>ECOGRAFÍA DE CUELLO</b></td>
-                                                    <td><b>26/01/2021</b></td>
-                                                    <td><b>10:00 A.M</b></td>
+                                                <tr *ngIf="!appointments">
+                                                    <td></td>
+                                                    <td class="info-table">Buscando historial ... </td>
+                                                </tr>
+                                                <tr *ngIf="appointments?.length == 0">
+                                                    <td></td>
+                                                    <td class="info-table">Sin resultados. </td>
+                                                </tr>                        
+                                                <tr *ngFor="let appointment of appointments; let ia = index;">
+                                                    <td><b>{{ appointment.study.cup }}</b></td>
+                                                    <td><b>{{ appointment.study.name }}</b></td>
+                                                    <td><b>{{ appointment._matchingData.AppointmentDates.date_time_ini.split('-')[0].trim().split('/').reverse().join('/') }}</b></td>
+                                                    <td><b>{{ appointment._matchingData.AppointmentDates.date_time_ini.split('-')[1].trim().toUpperCase() }}</b></td>
                                                     <td> 
-                                                        <button  data-toggle="modal" data-target="#dynamicModal" class="btn">
-                                                            <img width="30" src="assets/icons/svg/appointmentManagement/icono cerrar rojo.svg" alt="Icon Cancel">
+                                                        <button  data-toggle="modal" data-target="#dynamicModal" class="btn" (click)="onCancelAppointment(appointment)">
+                                                            <img width="30" title="Cancelar cita" src="assets/icons/svg/appointmentManagement/icono cerrar rojo.svg" alt="Icon Cancel">
+                                                        </button>
+                                                    </td>
+                                                    <td>
+                                                        <button class="btn" [routerLink]="['/edit-appointment', appointment]">
+                                                            <img width="30" title="Reasignar cita" src="assets/icons/svg/appointmentManagement/icono reasignar cita.svg" alt="Icon Reasign">
                                                         </button>
                                                     </td>
                                                     <td>
                                                         <button class="btn">
-                                                            <img width="30" src="assets/icons/svg/appointmentManagement/icono reasignar cita.svg" alt="Icon Reasign">
+                                                            <img width="30" title="Descargar instructivo" src="assets/icons/svg/appointmentManagement/icono descargar pdf.svg" alt="Download pdf">
                                                         </button>
                                                     </td>
-                                                    <td>
-                                                        <button class="btn">
-                                                            <img width="30" src="assets/icons/svg/appointmentManagement/icono descargar pdf.svg" alt="Download pdf">
-                                                        </button>
-                                                    </td>
+                                                    <!--
                                                     <td>
                                                         <button class="btn">
                                                             <img width="30" src="assets/icons/svg/appointmentManagement/icono de aprobado.svg" alt="Icon State">
                                                         </button>
                                                     </td>
+                                                    -->
                                                 </tr>
+                                                <!--
                                                 <tr>
                                                     <td><b>895001</b></td>
                                                     <td><b>RADIOGRAFÍA RODILLA</b></td>
@@ -79,6 +92,7 @@
                                                         </button>
                                                     </td>
                                                 </tr>
+                                                -->
                                             </tbody>
                                             <tfoot class="text-center">
                                                 <tr>
@@ -93,6 +107,11 @@
                                                 </tr>
                                             </tfoot>
                                         </table>
+                                        <div class="pagination">
+                                            <a (click)="onPreviousList()">Anterior&nbsp;&nbsp;<span><b><<</b></span></a>
+                                            &nbsp;&nbsp;<span>{{offset}}</span>&nbsp;&nbsp;
+                                            <a (click)="onNextList()"><span><b>>></b></span>&nbsp;&nbsp;Siguiente</a> 
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -104,4 +123,4 @@
     </div>
 </div>
 
-<app-dynamic-modal [type]="type" [optionsModal]="optionsModal"></app-dynamic-modal>
+<app-dynamic-modal [type]="type" [optionsModal]="optionsModal" (confirm)="onConfirm($event)"></app-dynamic-modal>

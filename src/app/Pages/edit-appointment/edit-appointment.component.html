@@ -22,7 +22,7 @@
                         <div class="sub-card">
                             <div class="aa-b-title">ASIGNACIÓN DE CITAS</div>
                             <div class="aa-b-info">
-                                <app-appointment-info [type]="type"></app-appointment-info>
+                                <app-appointment-info [type]="type"  [medicalOfficesId]="medicalOfficesId" [eps]="epsSelected" [center]="center" [studio]="studio" [people]="people" [medicalOffices]="medicalOffices" [appointmentShedule]="appointmentShedule" (appointment)="onAppointment($event)"></app-appointment-info>
                             <div class="card-footer"></div>
                         </div>
                     </div>
