@@ -76,7 +76,6 @@ export class AppointmentInfoComponent implements OnInit {
     this.myDatePickerOptions.disableSince = {
       year: 2021, month: 3, day: 24
     }
-    //this.getAppointmentsByDay(this.model);
   }
   ngOnChanges(changes: SimpleChanges) {
     if(changes.dateMax?.currentValue) {
@@ -105,15 +104,15 @@ export class AppointmentInfoComponent implements OnInit {
    * @param event 
    */
   onConfirm(event: any) {
-    if(event == "ASIGNAR") {
-      this.appointment.emit(this.shedule);
-    }
+    this.appointmentShedule = null;
+    this.appointment.emit(this.shedule);
   }
   onDenied(event: any) {
-    console.log(event)
-    setTimeout(() => {
-      document.getElementById('assignApp').click();
-    }, 100); 
+    if(this.type == 'ASIGNAR') {
+      setTimeout(() => {
+        document.getElementById('assignApp').click();
+      }, 100);
+    }
   }
   /************************************************************************************** */
   /** -> Evento encargado de detección de selección de horario de cita.
@@ -135,18 +134,6 @@ export class AppointmentInfoComponent implements OnInit {
       }
     }
   }
-  /************************************************************************************** */
-  private getAppointmentsByDay(date: string) {
-    this.appointmentInfosvc.getAppointmentsByDay(date).subscribe(
-      success => {
-        console.log(success);
-       
-      },
-      error => {
-        console.error(error);
-      }
-    )
-  }
   /***************************************************************************************** */
   /** -> Función encargada de obtener y asignar el rango de fecha disponible para cada consultorio
    *  -> Yefferson Caleño
@@ -163,6 +150,11 @@ export class AppointmentInfoComponent implements OnInit {
           this.medicalOffices[i].MedicalOffices.medicalRestriction = e.medicalRestriction;
         })
         this.appointmentShedule = appointmentsShedule(onlyDate, this.medicalOffices, this.studio.average_time);
+        let count: number = 0;
+        this.appointmentShedule.forEach(e => {
+          if(e.state == 'Available' && e.place == this.center.name) count++;
+        });
+        if(count == 0) this.appointmentShedule = [];
       },
       error => {
         console.error(error);

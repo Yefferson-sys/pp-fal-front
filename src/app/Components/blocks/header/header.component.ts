@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, Event, NavigationEnd } from '@angular/router';
+import { OptionsModal } from 'src/app/Models/dynamic-modal.model';
 
 @Component({
   selector: 'app-header',
@@ -8,6 +9,11 @@ import { Router, Event, NavigationEnd } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
   user: string;
+  type: string = "LOGOUT";
+  optionsModal: OptionsModal = {
+    header: 'CONFIRMAR CIERRE DE SESIÓN',
+    body: '¿Estás seguro(a) de Cerrar Sesión?'
+  }
   constructor(
     private router: Router
   ) { }
@@ -33,7 +39,7 @@ export class HeaderComponent implements OnInit {
     }
 
     if(localStorage.getItem('identification') == null) {
-      this.onLogout();
+      this.logout();
     }
 
     this.router.events.subscribe((event: Event)=> {
@@ -47,7 +53,11 @@ export class HeaderComponent implements OnInit {
     })
   }
 
-  onLogout() {
+  onConfirm(event) {
+    if(event == "LOGOUT") this.logout();
+  }
+  
+  private logout() {
     localStorage.clear();
     this.router.navigate(['']);
     this.user = undefined;
