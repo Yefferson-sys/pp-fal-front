@@ -8,6 +8,7 @@ export interface Studio {
     id?: string,
     cup?: string,
     name?: string,
+    type_study?: number,
     specializations_id?: string,
     average_time?: number
 }
@@ -80,5 +81,6 @@ export interface Appointment {
 	users_id?: number,                   
 	date_time_ini?: string,              
 	date_time_end?: string,
-    clients_id?: number              
+    clients_id?: number,
+    studies_id?: number              
 }

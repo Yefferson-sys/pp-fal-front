@@ -8,6 +8,7 @@ import { OptionsModal } from 'src/app/Models/dynamic-modal.model';
 import { Patient, People } from 'src/app/Models/user-profile.model';
 import { AppointmentInfoService } from 'src/app/Services/Appointment-Info/appointment-info.service';
 import { AssignAppointmentService } from 'src/app/Services/Assign-Appointment/assign-appointment.service';
+import { EditAppointmentService } from 'src/app/Services/Edit-Appointment/edit-appointment.service';
 import { UserProfileService } from 'src/app/Services/User-Profile/user-profile.service';
 
 @Component({
@@ -23,7 +24,7 @@ export class AssignAppointmentComponent implements OnInit {
   type: string;
   dateMax: string;
   optionsModal: OptionsModal;
-  keys: any = {response: 'response', center: 'center', order: 'order', patient: 'patient',appointmentList: 'appointmentList', result: 'result', clients: 'clients', people: 'people', services: 'services', studies: 'studies', success: 'success', rates: 'rates', medicalOffices: 'medicaOffices', data: 'data'};
+  keys: any = {message: 'message', response: 'response', center: 'center', order: 'order', patient: 'patient',appointmentList: 'appointmentList', result: 'result', clients: 'clients', people: 'people', services: 'services', studies: 'studies', success: 'success', rates: 'rates', medicalOffices: 'medicaOffices', data: 'data'};
   people: People = {first_name: ''};
   centers: Array<Center>;
   center: Center = {name: ''};
@@ -49,6 +50,7 @@ export class AssignAppointmentComponent implements OnInit {
     private toastSvc: ToastService,
     private assignAppointmentSvc: AssignAppointmentService,
     private appointmentInfosvc: AppointmentInfoService,
+    private editAppointmentSvc: EditAppointmentService,
     private router: Router
   ) { 
     this.getEpsList(); 
@@ -228,6 +230,22 @@ export class AssignAppointmentComponent implements OnInit {
     this.type = "ASIGNAR";
   }
   /***************************************************************************************** */
+  onNewAppointment() {
+    if(this.appointments.length > 0) {
+      let conf = window.prompt('Por favor, digita ELIMINAR en mayúscula', '...');
+      if(conf == 'ELIMINAR') {
+        this.onClickCups();
+        this.deleteAppointments();
+      }
+    }
+  }
+  /***************************************************************************************** */
+  private deleteAppointments() {
+    const options = {opacity: 1, enableHtml: true};
+    this.toastSvc.info('Eliminando información de citas', '¡Un momento por favor!', options);
+    
+  }
+  /***************************************************************************************** */
   private deleteAppointment(appointment: Appointment) {
     const options = {opacity: 1, enableHtml: true};
     this.toastSvc.info('Eliminando información de cita', '¡Un momento por favor!', options);
@@ -340,24 +358,8 @@ export class AssignAppointmentComponent implements OnInit {
         if (this.appointments.length > 0) {
           this.activateFields = false;
           this.getRatesByclient(this.appointments[0].clients_id);
-          if(this.eps) {
-            this.eps.every((e,i) => {
-              if(e.id == this.appointments[0].clients_id) {
-                this.epsSelected = this.eps[i];
-                return false;
-              }
-              return true;
-            })
-          }
-          if(this.centers) {
-            this.centers.every((e,i) => {
-              if(e.id = this.appointments[0].centers_id) {
-                this.center = this.centers[i];
-                return false;
-              }
-              return true;
-            });
-          }
+          this.getCenterById(this.appointments[0].centers_id);
+          this.getclientById(this.appointments[0].clients_id);
         }
       },
       error => {
@@ -370,6 +372,7 @@ export class AssignAppointmentComponent implements OnInit {
    *  -> Yefferson Caleño
    *  -> 05-03-2021
    * @param event 
+   * @param appointment 
    */
   private saveAppointment(event: AppointmentShedule, appointment: any) {
     this.assignAppointmentSvc.saveAppointment(appointment).subscribe(
@@ -387,7 +390,7 @@ export class AssignAppointmentComponent implements OnInit {
           this.toastSvc.info('guardando fechas de cita', '¡Un momento por favor!', options);
           this.saveAppointmentDates(success['appointment']['id'], appointmentDates);
         } else {
-          this.toastSvc.error("La cita no se ha guardado correctamente", "¡Algo ha salido mal!", options);
+          this.toastSvc.error("<b>"+success[this.keys.message]+"</b>", "¡Algo ha salido mal!", options);
         }
       },
       error => {
@@ -622,6 +625,41 @@ export class AssignAppointmentComponent implements OnInit {
       error => {
         console.error(error);
         
+      }
+    )
+  }
+  /***************************************************************************************** */
+  /** -> Función encarga de obtener la información de cliente.
+   *  -> Yefferson Caleño
+   *  -> 11-03-2021
+   * @param id 
+   */
+   private getclientById(id: number) {
+    this.editAppointmentSvc.getClientById(id).subscribe(
+      success => {
+        if(success[this.keys.success]) {
+          this.epsSelected = success[this.keys.clients][0];
+          this.getRatesByclient(id);
+        };
+      },
+      error => {
+        console.error(error);
+      }
+    )
+  }
+  /***************************************************************************************** */
+  /** -> Función encarga de obtener la información de sede.
+   *  -> Yefferson Caleño
+   *  -> 11-03-2021
+   * @param id 
+   */
+  private getCenterById(id: number) {
+    this.editAppointmentSvc.getCenterById(id).subscribe(
+      success => {
+        if(success[this.keys.success]) this.center = success[this.keys.center];
+      },
+      error => {
+        console.error(error);
       }
     )
   }

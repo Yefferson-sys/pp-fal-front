@@ -17,7 +17,7 @@
             <div class="col-md-4 text-center img-ctrl">
                 <img class="img-responsive fal-logo" src="assets/img/png/logo_transparente_fundacion_alejandro_londono-1536x277.png" alt="Fal logo">
             </div>
-            <div id="signout" class="col-md-4 text-right header-text"  (click)="onLogout()">
+            <div id="signout" class="col-md-4 text-right header-text" data-toggle="modal" data-target="#staticModal">
                 <a *ngIf="user" class="logout">
                     <span><img class="icons" src="assets/icons/svg/Login/power_settings_new-white-18dp.svg" alt="Logout Icon"></span> &nbsp; 
                     <strong>Cerrar Sesión</strong>
@@ -27,3 +27,27 @@
     </div>
 </nav>
 <nav [ngStyle]="{'top': (user == undefined)?'-16px':'0px'}" class="navbar navbar-expand-md fixed-top bottom-header"></nav>
+<!-- [ ./ Static Modal ] -->
+<div class="modal" id="staticModal">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">{{optionsModal?.header}}</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div [ngClass]="(type == 'CANCELAR')?'modal-body text-left':'modal-body'">
+                {{optionsModal?.body}}
+                <textarea *ngIf="type == 'CANCELAR'" name="description" id="description" cols="40" rows="5" placeholder="Escribe aqui porque deseas cancelar la cita ..."></textarea>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-confirm" data-dismiss="modal" (click)="onConfirm(type)">
+                    <span><img width="20" src="assets/icons/svg/dynamicModal/check_circle-white-18dp.svg" alt="Confirm Icon">&nbsp;SI</span>
+                </button>
+                <button class="btn btn-denied" data-dismiss="modal">
+                    <span><img width="20" src="assets/icons/svg/dynamicModal/close-white-18dp.svg" alt="Denied Icon">&nbsp;NO</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- [ /. Static Modal ] -->

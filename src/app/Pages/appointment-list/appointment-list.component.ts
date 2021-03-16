@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastService } from 'ng-uikit-pro-standard';
-import { dateAddMinutes } from 'src/app/Global/appointment.functions';
+import { Aldeamo, dateAddMinutes } from 'src/app/Global/appointment.functions';
 import { Appointment } from 'src/app/Models/appointment-list.model';
+import { People } from 'src/app/Models/user-profile.model';
 import { AppointmentListService } from 'src/app/Services/Appointment-List/appointment-list.service';
+import { AssignAppointmentService } from 'src/app/Services/Assign-Appointment/assign-appointment.service';
+import { EditAppointmentService } from 'src/app/Services/Edit-Appointment/edit-appointment.service';
+import { UserProfileService } from 'src/app/Services/User-Profile/user-profile.service';
 
 @Component({
   selector: 'app-appointment-list',
@@ -11,9 +15,10 @@ import { AppointmentListService } from 'src/app/Services/Appointment-List/appoin
 })
 export class AppointmentListComponent implements OnInit {
   offset: number = 1;
-  keys: any = {success: 'success', appointments: 'appointments'};
+  keys: any = {appointment: 'appointment', response: 'response', success: 'success', appointments: 'appointments', people: 'people'};
   appointments: Array<Appointment>;
   cancelInfo: any;
+  people: People = {first_name: ''};
   optionsModal: any = {
     header: "CONFIRMAR CANCELACIÓN DE CITA",
     body: "Motivo de Cancelación de la cita:",
@@ -21,10 +26,14 @@ export class AppointmentListComponent implements OnInit {
   type: string = "CANCELAR";
   constructor(
     private appointmentListSvc: AppointmentListService,
-    private toastSvc: ToastService
+    private toastSvc: ToastService,
+    private assignAppointmentSvc: AssignAppointmentService,
+    private userProfileSvc: UserProfileService,
+    private editAppointmentSvc: EditAppointmentService
   ) { }
 
   ngOnInit(): void {
+    this.getPeople();
     this.appointmentsList(localStorage.getItem('identification'), this.offset);
   }
   onPreviousList() {
@@ -64,6 +73,39 @@ export class AppointmentListComponent implements OnInit {
     }
   }
   /***************************************************************************************** */
+  /** -> Función encarga de obtener la información de cita.
+   *  -> Yefferson Caleño
+   *  -> 15-03-2021
+   * @param id 
+   */
+   private getAppointmentById(id: number) {
+    this.editAppointmentSvc.getAppointmentById(id).subscribe(
+      success => {
+        this.sendSmsAldeamo(success[this.keys.appointment][0]);
+      },
+      error => {
+        console.error(error);
+      }
+    )
+  }
+  /***************************************************************************************** */
+  /** -> Función encargada de enviar mensajes de texto a paciente
+   *  -> Yefferson Caleño
+   *  -> 15-03-2021
+   * @param appointment 
+   */
+   private sendSmsAldeamo(appointment: any) {
+    let data = Aldeamo('CANCELA', this.people, appointment);
+    this.assignAppointmentSvc.sendSmsAldeamo(data).subscribe(
+      success => {
+        console.log(JSON.parse(success[this.keys.response]));
+      },
+      error => {
+        console.error(error);
+      }
+    )
+  }
+  /***************************************************************************************** */
   private cancelAppointment() {
     this.appointmentListSvc.cancelAppointment(this.cancelInfo).subscribe(
       success => {
@@ -86,6 +128,7 @@ export class AppointmentListComponent implements OnInit {
       success => {
         if(success[this.keys.success]) {
           this.toastSvc.clear();
+          this.getAppointmentById(this.cancelInfo.appointments_id);
           this.toastSvc.success('Tú cita se ha cancelado exitosamente', '¡Cancelación exitosa!', options);
           this.appointmentsList(localStorage.getItem('identification'), this.offset);
         };
@@ -111,13 +154,28 @@ export class AppointmentListComponent implements OnInit {
             switch (e._matchingData.AppointmentStates.id) {
               case 1:
               case 2:
-                  appointments.push(e);
+              case 4:
+                  if(e.medical_office.id != 30) appointments.push(e);
                 break;
             }
           })
           this.appointments = appointments;
-          console.log(this.appointments);
         }
+      },
+      error => {
+        console.error(error);
+      }
+    )
+  }
+  /***************************************************************************************** */
+  /** -> Función encarga de obtener la información del usuario.
+   *  -> Yefferson Caleño
+   *  -> 03-03-2021
+   */
+   private getPeople() {
+    this.userProfileSvc.getPeople(localStorage.getItem('identification')).subscribe(
+      success => {
+        this.people = success[this.keys.people];
       },
       error => {
         console.error(error);

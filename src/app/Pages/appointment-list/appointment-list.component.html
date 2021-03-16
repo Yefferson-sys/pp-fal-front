@@ -1,4 +1,4 @@
-<div class="appointment-list">
+<div class="appointment-list" [ngStyle]="{'height':(appointments)?'':'84vh'}">
     <div class="container">
         <div class="row">
             <div class="col-md-12">
@@ -23,9 +23,7 @@
                                                     <th>CANCELAR</th>
                                                     <th>REASIGNAR</th>
                                                     <th>VER INSTRUCTIVO</th>
-                                                    <!--
                                                     <th>ESTADO</th>
-                                                    -->
                                                 </tr>
                                             </thead>
                                             <tbody class="text-center">
@@ -43,12 +41,12 @@
                                                     <td><b>{{ appointment._matchingData.AppointmentDates.date_time_ini.split('-')[0].trim().split('/').reverse().join('/') }}</b></td>
                                                     <td><b>{{ appointment._matchingData.AppointmentDates.date_time_ini.split('-')[1].trim().toUpperCase() }}</b></td>
                                                     <td> 
-                                                        <button  data-toggle="modal" data-target="#dynamicModal" class="btn" (click)="onCancelAppointment(appointment)">
+                                                        <button [disabled]="appointment._matchingData.AppointmentStates.id == 4" [ngStyle]="{'cursor':(appointment._matchingData.AppointmentStates.id == 4)?'not-allowed':'pointer'}" data-toggle="modal" data-target="#dynamicModal" class="btn" (click)="onCancelAppointment(appointment)">
                                                             <img width="30" title="Cancelar cita" src="assets/icons/svg/appointmentManagement/icono cerrar rojo.svg" alt="Icon Cancel">
                                                         </button>
                                                     </td>
                                                     <td>
-                                                        <button class="btn" [routerLink]="['/edit-appointment', appointment]">
+                                                        <button [disabled]="appointment._matchingData.AppointmentStates.id == 4" [ngStyle]="{'cursor':(appointment._matchingData.AppointmentStates.id == 4)?'not-allowed':'pointer'}" class="btn" [routerLink]="['/edit-appointment', appointment.id]">
                                                             <img width="30" title="Reasignar cita" src="assets/icons/svg/appointmentManagement/icono reasignar cita.svg" alt="Icon Reasign">
                                                         </button>
                                                     </td>
@@ -57,42 +55,14 @@
                                                             <img width="30" title="Descargar instructivo" src="assets/icons/svg/appointmentManagement/icono descargar pdf.svg" alt="Download pdf">
                                                         </button>
                                                     </td>
-                                                    <!--
                                                     <td>
-                                                        <button class="btn">
-                                                            <img width="30" src="assets/icons/svg/appointmentManagement/icono de aprobado.svg" alt="Icon State">
-                                                        </button>
-                                                    </td>
-                                                    -->
-                                                </tr>
-                                                <!--
-                                                <tr>
-                                                    <td><b>895001</b></td>
-                                                    <td><b>RADIOGRAFÍA RODILLA</b></td>
-                                                    <td><b>26/01/2021</b></td>
-                                                    <td><b>09:00 A.M</b></td>
-                                                    <td> 
-                                                        <button  data-toggle="modal" data-target="#dynamicModal" class="btn">
-                                                            <img width="30" src="assets/icons/svg/appointmentManagement/icono cerrar rojo.svg" alt="Icon Cancel">
-                                                        </button>
-                                                    </td>
-                                                    <td>
-                                                        <button class="btn">
-                                                            <img width="30" src="assets/icons/svg/appointmentManagement/icono reasignar cita.svg" alt="Icon Reasign">
-                                                        </button>
-                                                    </td>
-                                                    <td>
-                                                        <button class="btn">
-                                                            <img width="30" src="assets/icons/svg/appointmentManagement/icono descargar pdf.svg" alt="Download pdf">
-                                                        </button>
-                                                    </td>
-                                                    <td>
-                                                        <button class="btn">
-                                                            <img width="30" src="assets/icons/svg/appointmentManagement/icono de cancelado.svg" alt="Icon State">
+                                                        <button class="btn" [title]="appointment._matchingData.AppointmentStates.state">
+                                                            <img width="30" *ngIf="appointment._matchingData.AppointmentStates.id == 1" src="assets/icons/svg/appointmentManagement/icono de aprobado.svg" alt="Icon State">
+                                                            <img width="30"  *ngIf="appointment._matchingData.AppointmentStates.id == 4" src="assets/icons/svg/appointmentManagement/icono de cancelado.svg" alt="Icon State">
+                                                            <img width="30" *ngIf="appointment._matchingData.AppointmentStates.id == 2" src="assets/icons/svg/appointmentManagement/icono reasignar cita.svg" alt="Icon State">
                                                         </button>
                                                     </td>
                                                 </tr>
-                                                -->
                                             </tbody>
                                             <tfoot class="text-center">
                                                 <tr>
