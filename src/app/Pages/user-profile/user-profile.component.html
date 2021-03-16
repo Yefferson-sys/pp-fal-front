@@ -1,3 +1,4 @@
+<button id="toggleModal" type="button" data-toggle="modal" data-target="#dynamicModal" (click)="onOpenModal('IR A HOME')" style="display: none;"></button>
 <div class="user-profile">
     <div class="container">
         <div class="row">
@@ -9,94 +10,152 @@
                             <div class="card-header"></div>
                         </div>
                         <div class="col-md-2 text-center info-user">
-                            <img class="img-user" src="assets/img/png/cat-profile.png" alt="User Photo">
+                            <input type="file" class="form-control upload-image-hide" accept="image/*" (change)="onSelectImage($event)">
+                            <img class="img-user" [src]="(urlPhoto)? urlPhoto: 'assets/img/png/cat-profile.png'" alt="User Photo">
                             <img class="icons add-icon" src="assets/icons/svg/userProfile/add_a_photo-white-18dp.svg" alt="Add Photo Icon">
                             <div class="img-text">
                                 Adjuntar foto
                             </div>
                         </div>
-                        <div class="col-md-5 info-user" style="padding: 0px;">
-                            <img class="icons user-icon" src="assets/icons/svg/Login/person-white-18dp.svg" alt="">&nbsp;
-                            <span class="info-title"><strong>DATOS DEL USUARIO</strong></span>
-                            <div class="inputs-info">
-                                <div class="active">
-                                    <input type="text" class="form-control"
-                                        name="user" placeholder="Nombre Completo:"
-                                    />
+                        <div class="col-md-10" style="padding: 0px; margin-top: 24px;">
+                            <div class="row" style="width: 100%;">
+                                <div class="col-md-6 info-user">
+                                    <img class="icons user-icon" src="assets/icons/svg/Login/person-white-18dp.svg" alt="">&nbsp;
+                                    <span class="info-title"><strong>DATOS DEL USUARIO</strong></span>        
                                 </div>
-                                <div class="active">
-                                    <input type="text" class="form-control"
-                                        name="document_type" placeholder="Tipo de documento:" readonly
-                                    />
-                                    <span class="open-select"></span>
-                                    <select class="select_doc_type" name="select_doc_type">
-                                        <option value="0">Cédula de Ciudadanía</option>
-                                        <option value="1">Tarjeta de Identidad</option>
-                                        <option value="2">Registro Civil</option>
-                                    </select>
+                                <div class="col-md-6 info-user"></div>
+                                <div class="col-md-6 info-user">
+                                    <div class="active">
+                                        <input type="text" class="form-control" [(ngModel)]="people.first_name"
+                                            name="first_name" placeholder="Primer nombre:" 
+                                        />
+                                    </div>
                                 </div>
-                                <div class="active">
-                                    <input type="text" class="form-control"
-                                        name="street_address" placeholder="Dirección:"
-                                    />
+                                <div class="col-md-6 info-user">
+                                    <div class="active">
+                                        <input type="text" class="form-control" [(ngModel)]="people.middle_name"
+                                            name="middle_name" placeholder="Segundo nombre:" 
+                                        />
+                                    </div>
                                 </div>
-                                <div class="active">
-                                    <input type="text" class="form-control"
-                                        name="sms_phone" placeholder="Celular SMS:"
-                                    />
+                                <div class="col-md-6 info-user">
+                                    <div class="active">
+                                        <input type="text" class="form-control" [(ngModel)]="people.last_name"
+                                            name="last_name" placeholder="Apellidos:"
+                                        />
+                                    </div>
                                 </div>
-                                <div class="active">
-                                    <input type="text" class="form-control"
-                                        name="gender" placeholder="Género:" readonly
-                                    />
-                                    <span class="open-select"></span>
-                                    <select class="select_gender" name="select_doc_type">
-                                        <option value="0">Masculino</option>
-                                        <option value="1">Femenino</option>
-                                        <option value="2">Otro</option>
-                                    </select>
+                                <div class="col-md-6 info-user">
+                                    <div class="active">
+                                        <div class="date-picker">
+                                            <mdb-date-picker [locale]="'es'" [inline]="true" name="mydate" [options]="myDatePickerOptions" 
+                                                [openOnFocus]="true" inlineIcon="" [placeholder]="'Fecha de nacimiento:'" [(ngModel)]="people.birthdate" required
+                                            ></mdb-date-picker> 
+                                        </div>
+                                    </div>
                                 </div>
-                                
-                            </div>
-                        </div>
-                        <div class="col-md-5 info-user">
-                            <div class="inputs-info-right">
-                                <div class="active">
-                                    <input type="text" class="form-control"
-                                        name="birth_date" placeholder="Fecha de nacimiento:"
-                                    />
+                                <div class="col-md-6 info-user">
+                                    <div class="active">
+                                        <input type="text" class="form-control" [value]="(documentTypes)?documentTypes[people.document_types_id-1].type: ''"
+                                            name="document_types_id" placeholder="Tipo de documento:" readonly
+                                        />
+                                        <span class="open-select"></span>
+                                        <select class="select_doc_type" name="select_doc_type" [(ngModel)]="people.document_types_id">
+                                            <option [value]="documentType.id" *ngFor="let documentType of documentTypes; let idt = index;">{{ documentType.type }}</option>
+                                        </select>
+                                    </div>
                                 </div>
-                                <div class="active">
-                                    <input type="text" class="form-control"
-                                        name="document_number" placeholder="Cédula de Ciudadanía:"
-                                    />
+                                <div class="col-md-6 info-user">
+                                    <div class="active">
+                                        <input type="text" class="form-control" [(ngModel)]="people.identification"
+                                            name="identification" placeholder="Número de documento:"
+                                        />
+                                    </div>
                                 </div>
-                                <div class="active">
-                                    <input type="text" class="form-control"
-                                        name="phone" placeholder="Teléfono:"
-                                    />
+                                <div class="col-md-6 info-user">
+                                    <div class="active">
+                                        <input type="text" class="form-control" [(ngModel)]="people.address"
+                                            name="address" placeholder="Dirección:"
+                                        />
+                                    </div>
                                 </div>
-                                <div class="active">
-                                    <input type="text" class="form-control"
-                                        name="e_mail" placeholder="Correo electrónico:"
-                                    />
+                                <div class="col-md-6 info-user">
+                                    <div class="active">
+                                        <input type="text" class="form-control" [(ngModel)]="people.phone_sms"
+                                            name="phone_sms" placeholder="Celular SMS:"
+                                        />
+                                    </div>
                                 </div>
-                                <div>
-                                    <label for="document_file"><strong>Adjuntar Cédula de Ciudadanía</strong></label>
-                                    <input class="select-file form-control" placeholder="Seleccionar archivo" readonly/>
-                                    <input type="file" class="form-control upload-file-hide" accept="application/pdf,image/*">
-                                    <div class="upload-file">
-                                        <img class="file-icon" src="assets/icons/svg/userProfile/feed-white-18dp.svg" alt="">
-                                        <span class="upload-text">Adjuntar</span>
+                                <div class="col-md-6 info-user">
+                                    <div class="active">
+                                        <input type="text" class="form-control" [(ngModel)]="people.phone"
+                                            name="phone" placeholder="Teléfono:"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="col-md-6 info-user">
+                                    <div class="active">
+                                        <input type="text" class="form-control" [(ngModel)]="people.email"
+                                            name="email" placeholder="Correo electrónico:"
+                                        />
                                     </div>
                                 </div>
                                 
+                                <div class="col-md-6 info-user">
+                                    <div class="active">
+                                        <input type="text" class="form-control" [value]="(genders)?genders[people.gender].gender: ''"
+                                            name="gender" placeholder="Género:" readonly
+                                        />
+                                        <span class="open-select"></span>
+                                        <select class="select_gender" name="select_doc_type" [(ngModel)]="people.gender">
+                                            <option [value]="gender.id" *ngFor="let gender of genders; let ig = index;"> {{ gender.gender }} </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 info-user">
+                                    <div>
+                                        <label for="document_file"><strong>Adjuntar {{ (documentTypes)?documentTypes[people.document_types_id-1].type: 'documento de identidad' }}</strong></label>
+                                        <input class="select-file form-control" [placeholder]="(fileName)?fileName:'Seleccionar archivo'" readonly/>
+                                        <input (change)="onSelectDocument($event)"
+                                            type="file" class="form-control upload-file-hide" accept="application/pdf,image/*"
+                                        />
+                                        <div class="upload-file">
+                                            <img class="file-icon" src="assets/icons/svg/userProfile/feed-white-18dp.svg" alt="Upload Icon">
+                                            <span class="upload-text"> {{ (documentInfo?.url)?'Cambiar':'Adjuntar' }} </span>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="documentInfo?.url">
+                                        <input (click)="onDownloadDocument(documentInfo?.url)" class="download-file form-control" style="background-image: url('assets/icons/svg/userProfile/download_for_offline-white-18dp.svg');" placeholder="Descargar archivo" readonly/>
+                                        <div class="delete-file" data-toggle="modal" data-target="#dynamicModal" (click)="onOpenModal('ELIMINAR DOC')">
+                                            <img class="file-icon" src="assets/icons/svg/userProfile/delete_forever-white-18dp.svg" alt="Delete Icon">
+                                            <span class="upload-text">Eliminar</span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-
                     </div>
+                    <br>
+                    <div class="container">
+                        <hr>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-5"></div>
+                                <div class="col-md-2 text-center">
+                                    <div class="save-people-info" data-toggle="modal" data-target="#dynamicModal"  (click)="onOpenModal('GUARDAR INFO')">
+                                        <img src="assets/icons/svg/userProfile/save-white-18dp.svg" alt="">
+                                        <span>GUARDAR</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-5"></div>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                    <br>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<app-dynamic-modal [type]="type" [optionsModal]="optionsModal" (confirm)="onConfirm($event)"></app-dynamic-modal>

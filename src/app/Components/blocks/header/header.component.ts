@@ -32,10 +32,13 @@ export class HeaderComponent implements OnInit {
       }
     }
 
+    if(localStorage.getItem('identification') == null) {
+      this.onLogout();
+    }
+
     this.router.events.subscribe((event: Event)=> {
       if (event instanceof NavigationEnd) {
         if(localStorage.getItem('token')) {
-          console.log(JSON.parse(localStorage.getItem('person')))
           this.user = JSON.parse(localStorage.getItem('person'))['name'];
         } else {
           this.router.navigate(['']);

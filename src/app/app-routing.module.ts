@@ -5,12 +5,17 @@ import { AppointmentListComponent } from './Pages/appointment-list/appointment-l
 import { AssignAppointmentComponent } from './Pages/assign-appointment/assign-appointment.component';
 import { EditAppointmentComponent } from './Pages/edit-appointment/edit-appointment.component';
 import { HomeComponent } from './Pages/home/home.component';
+import { NgInitComponent } from './Pages/ng-init/ng-init.component';
 import { UserProfileComponent } from './Pages/user-profile/user-profile.component';
 
 const routes: Routes = [
   {
     path: '',
     component: AuthComponent
+  },
+  {
+    path: 'ng-init',
+    component: NgInitComponent
   },
   {
     path: 'home',

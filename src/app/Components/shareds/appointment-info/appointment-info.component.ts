@@ -1,5 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import {  IMyOptions } from 'ng-uikit-pro-standard';
+import { appointmentsShedule, dateAddDays } from 'src/app/Global/appointment.functions';
+import { AppointmentsData, AppointmentShedule, Center, MedicalOffices } from 'src/app/Models/appointment-info.model';
+import { Eps, Studio } from 'src/app/Models/assign-appointment.model';
+import { OptionsModal } from 'src/app/Models/dynamic-modal.model';
+import { People } from 'src/app/Models/user-profile.model';
+import { AppointmentInfoService } from 'src/app/Services/Appointment-Info/appointment-info.service';
 
 @Component({
   selector: 'app-appointment-info',
@@ -7,7 +13,24 @@ import {  IMyOptions } from 'ng-uikit-pro-standard';
   styleUrls: ['./appointment-info.component.scss']
 })
 export class AppointmentInfoComponent implements OnInit {
+  /************************************************************************************** */
+  /** -> Recepción de parámetros de componente padre */
   @Input() type: string;
+  @Input() eps: Eps;
+  @Input() studio: Studio;
+  @Input() people: People;
+  @Input() medicalOffices: Array<MedicalOffices>;
+  @Input() appointmentShedule: Array<AppointmentShedule>;
+  @Input() center: Center;
+  @Input() optionsModal: OptionsModal;
+  @Input() dateMax: string;
+  @Input() medicalOfficesId: Array<any>;
+  /************************************************************************************** */
+  /** -> Envio de parámetros a componente padre */
+  @Output() appointment = new EventEmitter<AppointmentShedule>();
+  /************************************************************************************** */
+  /** -> Declaración de variables */
+  keys: any = {medicalOffices: 'medicaOffices', data: 'data'}
   model: string;
   myDatePickerOptions: IMyOptions = {
     dayLabels: {
@@ -39,23 +62,114 @@ export class AppointmentInfoComponent implements OnInit {
       }
     ], 
   };
-  optionsModal: any = {
-    header: "CONFIRMAR REASIGNACIÓN DE ",
-    body: "¿Está seguro que desea reasignar cita?",
-  }
-  constructor() { }
-
+  shedule: AppointmentShedule;
+  /************************************************************************************** */
+  /** -> Instanción de funciones, módulos y servicios para utilizar dentro de la clase */
+  constructor(
+    private appointmentInfosvc: AppointmentInfoService
+  ) { }
+  /************************************************************************************** */
+  /** -> Función inicial  */
   ngOnInit(): void {
     let date = new Date();
-    this.model = this.formatDate(date);
-    console.log(this.model)
+    this.model =  dateAddDays(date, 3);
+    this.myDatePickerOptions.disableSince = {
+      year: 2021, month: 3, day: 24
+    }
+    //this.getAppointmentsByDay(this.model);
   }
-
-  private formatDate(date) {
-    var d = new Date(date), month = '' + (d.getMonth() + 1), day = '' + (d.getDate() + 2 ), year = d.getFullYear();
-    if (month.length < 2) month = '0' + month;
-    if (day.length < 2) day = '0' + day;
-    return [year, month, day].join('-');
+  ngOnChanges(changes: SimpleChanges) {
+    if(changes.dateMax?.currentValue) {
+      this.myDatePickerOptions.disableSince = {
+        year: new Date(changes.dateMax.currentValue).getFullYear(), month: new Date(changes.dateMax.currentValue).getMonth()+1, day: new Date(changes.dateMax.currentValue).getDate()
+      }
+    }
   }
-
+  /************************************************************************************** */
+  /** -> Evento encargado de detección de cambio de fecha en datepicker.
+   *  -> Yefferson Caleño 
+   *  -> 03-03-2021
+   * @param event 
+   */
+  onDateChange(event: any) {
+    this.appointmentShedule = null;
+    this.appointmentsShedule(event.actualDateFormatted);
+  }
+  onInputFocusBlur(event: any) {
+    
+  }
+  /************************************************************************************** */
+  /** -> Evento encargado de detección de confirmación de cita.
+   *  -> Yefferson Caleño
+   *  -> 04-03-2021
+   * @param event 
+   */
+  onConfirm(event: any) {
+    if(event == "ASIGNAR") {
+      this.appointment.emit(this.shedule);
+    }
+  }
+  onDenied(event: any) {
+    console.log(event)
+    setTimeout(() => {
+      document.getElementById('assignApp').click();
+    }, 100); 
+  }
+  /************************************************************************************** */
+  /** -> Evento encargado de detección de selección de horario de cita.
+   *  -> Yefferson Caleño
+   *  -> 04-03-2021
+   * @param shedule 
+   */
+  onAssignAppoinment(shedule: AppointmentShedule) {
+    this.shedule = shedule
+    if(this.type == 'ASIGNAR') {
+      this.optionsModal = {
+        header: "CONFIRMAR ASIGNACIÓN DE CITA",
+        body: "¿Está seguro que desea asignar cita?",
+      }
+    } else {
+      this.optionsModal = {
+        header: "CONFIRMAR REASIGNACIÓN DE CITA",
+        body: "¿Está seguro que desea reasignar cita?",
+      }
+    }
+  }
+  /************************************************************************************** */
+  private getAppointmentsByDay(date: string) {
+    this.appointmentInfosvc.getAppointmentsByDay(date).subscribe(
+      success => {
+        console.log(success);
+       
+      },
+      error => {
+        console.error(error);
+      }
+    )
+  }
+  /***************************************************************************************** */
+  /** -> Función encargada de obtener y asignar el rango de fecha disponible para cada consultorio
+   *  -> Yefferson Caleño
+   *  -> 04-03-2021
+   * @param onlyDate
+   */
+  private appointmentsShedule(onlyDate) {
+    this.appointmentInfosvc.getAvailableDateGroups(onlyDate, this.medicalOfficesId).subscribe(
+      success => {
+        let availableDates: Array<AppointmentsData> = success[this.keys.data];
+        availableDates.forEach((e, i) => {
+          this.medicalOffices[i].MedicalOffices.availableDates = e.dates;
+          this.medicalOffices[i].MedicalOffices.appointments = e.appointments;
+          this.medicalOffices[i].MedicalOffices.medicalRestriction = e.medicalRestriction;
+        })
+        this.appointmentShedule = appointmentsShedule(onlyDate, this.medicalOffices, this.studio.average_time);
+      },
+      error => {
+        console.error(error);
+      }
+    )
+  }
+  /***************************************************************************************** */
+  
+  /************************************************************************************** */
 }

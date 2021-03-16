@@ -64,6 +64,9 @@
     box-shadow: 0px 5px 10px #00000033;
     opacity: 1;
 }
+a {
+    cursor: pointer;
+}
 
 @media screen and (min-width: 998px) {
     .logout {
