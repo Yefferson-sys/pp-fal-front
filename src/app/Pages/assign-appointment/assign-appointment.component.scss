@@ -3,6 +3,67 @@
     opacity: 1;
 }
 
+.select-file, .download-file {
+    margin-top: 5px;
+    height: 46px;
+}
+
+.download-file {
+    cursor: pointer;
+    background-repeat: no-repeat;
+    background-size: 40px;
+    background-position-x: 170px;
+}
+
+.download-file::placeholder {
+    color: #5bc0de;
+}
+
+.upload-file-hide {
+    position: absolute;
+    color: transparent;
+    width: 116px;
+    height: 46px;
+    left: 64%;
+    top: 34px;
+    z-index: 9;
+}
+
+input[type=file] {
+    cursor: pointer;
+    z-index: 99;
+    opacity: 0;
+}
+
+.upload-file {
+    width: 116px;
+    height: 46px;
+    left: 64%;
+    top: 34px;
+    position: absolute;
+    background: #61C6E1 0% 0% no-repeat padding-box;
+    box-shadow: 0px 3px 6px #00000029;
+    border-radius: 5px;
+    opacity: 1;
+    padding: 6px;
+    
+    .file-icon {
+        width: 30px;
+        opacity: 1;
+    }
+
+    .upload-text {
+        font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-medium) var(--unnamed-font-size-16)/var(--unnamed-line-spacing-15) var(--unnamed-font-family-roboto);
+        letter-spacing: var(--unnamed-character-spacing-0);
+        color: var(--unnamed-color-ffffff);
+        text-align: left;
+        font: normal normal normal 17px/16px Roboto;
+        letter-spacing: 0px;
+        color: #FFFFFF;
+        opacity: 1;
+    }
+}
+
 select, input[type=file] {
     cursor: pointer;
     z-index: 999;
@@ -65,6 +126,7 @@ select, input[type=file] {
     font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-normal) var(--unnamed-font-size-18)/var(--unnamed-line-spacing-25) var(--unnamed-font-family-roboto);
     letter-spacing: var(--unnamed-character-spacing-0);
     text-align: left;
+    display: none;
     font: normal normal normal 18px/25px Roboto;
     letter-spacing: 0px;
     color: #3DB0F8;
@@ -96,6 +158,35 @@ select, input[type=file] {
 
 .img-b-cups {
     width: 100%;
+}
+
+.cups-quest {
+    margin-top: 87px; 
+    cursor: pointer;
+    display: inline-flex;
+    b {
+        font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-bold) 14px/var(--unnamed-line-spacing-15) var(--unnamed-font-family-roboto);
+        letter-spacing: var(--unnamed-character-spacing-0);
+        color: var(--unnamed-color-162c70);
+        text-align: center;
+        font: normal normal bold 14px/15px Roboto;
+        letter-spacing: 0px;
+        color: #162C70;
+        opacity: 1;
+    }
+}
+
+.aa-b-cups-icon {
+    background-color: #279DE6;
+    color: white;
+    width: 24px !important;
+    height: 24px !important;
+    font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-medium) var(--unnamed-font-size-18)/var(--unnamed-line-spacing-25) var(--unnamed-font-family-roboto);
+    letter-spacing: var(--unnamed-character-spacing-0);
+    text-align: left;
+    font: normal normal medium 20px/25px Roboto;
+    letter-spacing: 0px;
+    opacity: 1;    
 }
 
 .aa-b-info {
@@ -173,7 +264,7 @@ select, input[type=file] {
 
 .entity-text, .center-text {
     height: 38px;
-    width: 82%;
+    width: 85%;
     background: #F3F2F2 0% 0% no-repeat padding-box;
     box-shadow: 0px 3px 6px #0000001A;
     border: 1px solid #BFBFBF;
@@ -210,7 +301,7 @@ select, input[type=file] {
 
 .cups-text {
     height: 38px;
-    width: 100%;
+    width: 85%;
     background: #F3F2F2 0% 0% no-repeat padding-box;
     box-shadow: 0px 3px 6px #0000001A;
     border: 1px solid #BFBFBF;
@@ -281,8 +372,76 @@ table {
     }
 }
 
+#cupsModal {
+    .modal-dialog {
+        .modal-header {
+            background: var(--unnamed-color-162c70) 0% 0% no-repeat padding-box;
+            background: #162C70 0% 0% no-repeat padding-box;
+            opacity: 1;
+            .modal-title {
+                width: 100%;
+                font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-medium) var(--unnamed-font-size-21)/33px var(--unnamed-font-family-roboto);
+                letter-spacing: var(--unnamed-character-spacing-0);
+                color: var(--unnamed-color-ffffff);
+                text-align: center;
+                font: normal normal medium 21px/33px Roboto;
+                letter-spacing: 0px;
+                color: #FFFFFF;
+                opacity: 1;
+            }
+            button {
+                display: none;
+            }
+        }
+        .modal-body {
+            width: 100%;font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-medium) var(--unnamed-font-size-21)/var(--unnamed-line-spacing-25) var(--unnamed-font-family-roboto);
+            letter-spacing: var(--unnamed-character-spacing-0);
+            text-align: center;
+            cursor: pointer;
+            font: normal normal medium 21px/25px Roboto;
+            letter-spacing: 0px;
+            color: #6E6C6C;
+            opacity: 1;
+        }
+        .modal-footer {
+            width: 100%;
+            .btn-confirm {
+                margin-right: 46%;
+                height: 34px;
+                background: #213A88 0% 0% no-repeat padding-box;
+                box-shadow: 0px 3px 6px #00000029;
+                border-radius: 5px;
+                opacity: 1;
+            }
+
+            span {
+                font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-normal) var(--unnamed-font-size-16)/var(--unnamed-line-spacing-22) var(--unnamed-font-family-roboto);
+                letter-spacing: var(--unnamed-character-spacing-0);
+                color: var(--unnamed-color-ffffff);
+                text-align: left;
+                font: normal normal normal 16px/22px Roboto;
+                letter-spacing: 0px;
+                color: #FFFFFF;
+                opacity: 1;
+                img {
+                    padding-bottom: 5px;
+                }
+            }
+        }
+    }
+}
+
 
 @media screen and (min-width: 767px) and (max-width: 998px) {
+    .upload-file {
+        left: 0%;
+        width: 95%;
+        text-align: center;
+    }
+    .upload-file-hide {
+        left: 0%;
+        width: 95%;
+    }
     .pad-ctrl {
         -ms-flex: 0 0 98%  !important;
         flex: 0 0 98%  !important;
@@ -298,17 +457,38 @@ table {
         align-items: center !important;
         text-align: center !important;
     }
+    .download-file {
+        margin-left: -15px;
+    }
+    .delete-file {
+        margin-left: -14px;
+    }
+    .upload-file {
+        left: 10%;
+        width: 88%;
+    }
+    .upload-file-hide {
+        left: 10%;
+        width: 88%;
+    }
 }
 
 @media screen and (min-width: 767px) {
     table {
         width: 100%;
+        .tt-0 {
+            width: 5%;
+        }
         .tt-1 {
-            width: 70%;
+            width: 55%;
         }
         .tt-2 {
             width: 30%;
         }    
+        .tt-3 {
+            width: 10%;
+        }
+        
     }
     
     .modal-content {

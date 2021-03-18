@@ -43,6 +43,9 @@ export class AssignAppointmentComponent implements OnInit {
   patient: Patient;
   medicalOfficesId: Array<any> = [];
   dateSelected: string;
+  orderInfo: any;
+  fileName: string;
+  files: FileList;
   /**************************************************************************************** */
   /** -> Instanción de funciones, módulos y servicios para utilizar dentro de la clase */
   constructor(
@@ -177,35 +180,40 @@ export class AssignAppointmentComponent implements OnInit {
    */
   onSaveOrder() {
     const options = {opacity: 1, enableHtml: true}
-    this.toastSvc.info('guardando solicitud', '¡Un momento por favor!', options);
-    let saveOrder = {
-      calculated_age: diffDate(this.people.birthdate, new Date(), 'Years').toFixed(2),
-      centers_id: this.appointments[0].centers_id,             
-      cie_ten_codes_id: 11803,    // default
-      clients_id: this.appointments[0].clients_id,
-      consultation_endings_id: 1, // default
-      copayment: 0,               // default
-      cost_centers_id: this.appointments[0].specializations_id,
-      discount: 0,                // default  
-      donation: 0,                // default
-      external_causes_id: 1,      // default
-      external_specialists_id: 1, // default
-      form_payment_id: 1,         // default
-      id: 0,                      // default
-      observations: "Orden guardada por paciente mediante portal personas",
-      order_states_id: 1,         // default
-      particular_payout: "",      // default
-      patients_id: this.patient.id,
-      rates_id: this.rates[0].rate.id,
-      service_type_id: 5,         // default
-      signature: "",              // default
-      subtotal: 0,                // default
-      total: 0,                   // default
-      total_cancel: null,         // total a cancelar ??
-      users_id: this.appointments[0].users_id,                
-      validator: "portal personas"
+    if(this.files) {
+      this.toastSvc.info('guardando solicitud', '¡Un momento por favor!', options);
+      let saveOrder = {
+        calculated_age: diffDate(this.people.birthdate, new Date(), 'Years').toFixed(2),
+        centers_id: this.appointments[0].centers_id,             
+        cie_ten_codes_id: 11803,    // default
+        clients_id: this.appointments[0].clients_id,
+        consultation_endings_id: 1, // default
+        copayment: 0,               // default
+        cost_centers_id: this.appointments[0].cost_center_id,
+        discount: 0,                // default  
+        donation: 0,                // default
+        external_causes_id: 1,      // default
+        external_specialists_id: 1, // default
+        form_payment_id: 1,         // default
+        id: 0,                      // default
+        observations: "Orden guardada por paciente mediante portal personas",
+        order_states_id: 1,         // default
+        particular_payout: "",      // default
+        patients_id: this.patient.id,
+        rates_id: this.rates[0].rate.id,
+        service_type_id: 5,         // default
+        signature: "",              // default
+        subtotal: 0,                // default
+        total: 0,                   // default
+        total_cancel: null,         // total a cancelar ??
+        users_id: this.appointments[0].users_id,                
+        validator: "portal personas"
+      }
+      this.saveOrder(saveOrder);
+    } else {
+      this.toastSvc.clear();
+      this.toastSvc.warning('El campo <b>Adjuntar orden</b> no puede estar vacío.', '¡Información incompleta!', options);
     }
-    this.saveOrder(saveOrder);
   }
   /***************************************************************************************** */
   /** -> Evento encargado de detectar confirmación de modal
@@ -226,7 +234,7 @@ export class AssignAppointmentComponent implements OnInit {
    *  -> 08-03-2021
    * @param event 
    */
-   onAssign() {
+  onAssign() {
     this.type = "ASIGNAR";
   }
   /***************************************************************************************** */
@@ -236,6 +244,35 @@ export class AssignAppointmentComponent implements OnInit {
       if(conf == 'ELIMINAR') {
         this.onClickCups();
         this.deleteAppointments();
+      }
+    }
+  }
+  /***************************************************************************************** */
+  onSelectOrder(event: any) {
+    this.fileName = event.target.files[0].name;
+    this.files = event.target.files;
+  }
+  /***************************************************************************************** */
+  onOpenCups(file: string) {
+    window.open(file, '_blank');
+  }
+  /***************************************************************************************** */
+  private saveOrderDoc(orderId: number, order_consec: string) {
+    if(this.files) {
+      const options = {opacity: 1,enableHtml: true};
+      this.toastSvc.info('Guardando documento ...', '¡Un momento por favor!', options);
+      if(orderId && orderId != 0) {
+        this.assignAppointmentSvc.saveOrderDoc({orderId}, this.files).subscribe(
+          success => {
+            this.toastSvc.clear();
+            this.toastSvc.success("Tu número de solicitud es <b>"+order_consec+"</b>", "¡Guardado exitoso!", options);
+            this.setVariables();
+            setTimeout(()=> {this.router.navigate(['appointment-list'])}, 500);
+          },
+          error => {
+            console.error(error);
+          }
+        )
       }
     }
   }
@@ -299,11 +336,8 @@ export class AssignAppointmentComponent implements OnInit {
       success => {
         const options = {opacity: 1, enableHtml: true};
         if(success[this.keys.success]) {
-          this.toastSvc.clear();
-          this.toastSvc.success("Tu número de solicitud es <b>"+order_consec+"</b>", "¡Guardado exitoso!", options);
           this.sendSmsAldeamo();
-          this.setVariables();
-          setTimeout(()=> {this.router.navigate(['appointment-list'])}, 500);
+          this.saveOrderDoc(orderId, order_consec);
         } else {
           this.toastSvc.error("La(s) citas no se han asociado a la orden correctamente", "¡Algo ha salido mal!", options);
         }
@@ -689,6 +723,8 @@ export class AssignAppointmentComponent implements OnInit {
     this.availableDates = null;
     this.appointments = null;
     this.patient = null;
+    this.fileName = null;
+    this.files = null;
   }
   /***************************************************************************************** */
 }

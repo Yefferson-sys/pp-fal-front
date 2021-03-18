@@ -51,7 +51,7 @@
                                                         </button>
                                                     </td>
                                                     <td>
-                                                        <button class="btn">
+                                                        <button [disabled]="appointment.study.instructives.length == 0" [ngStyle]="{'cursor':(appointment.study.instructives.length == 0)?'not-allowed':'pointer'}" class="btn" (click)="onOpenInstructive(appointment.study.instructives[0]?.id)">
                                                             <img width="30" title="Descargar instructivo" src="assets/icons/svg/appointmentManagement/icono descargar pdf.svg" alt="Download pdf">
                                                         </button>
                                                     </td>
