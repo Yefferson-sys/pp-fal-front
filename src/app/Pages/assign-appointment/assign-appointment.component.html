@@ -113,7 +113,7 @@
                                     </div>
                                     <div class="col-md-1"></div>
                                 </div>
-
+                                <!--
                                 <div class="row">
                                     <div class="col-md-7">
                                         </div>
@@ -130,35 +130,48 @@
                                         
                                     </div>
                                 </div>
+                                -->
                                 <br><hr><br>
                                 <div class="row" *ngIf="appointments?.length > 0">
                                     <div class="col-md-1"></div>
                                     <div class="col-md-7 pad-ctrl">
-                                        <div class="table-responsive">
-                                            <div class="table text-center">
-                                                <table>
-                                                    <thead class="text-center">
-                                                        <tr>
-                                                            <th class="tt-0">CUPS</th>
-                                                            <th class="tt-1">ESTUDIO O CITA</th>
-                                                            <th class="tt-2">FECHA</th>
-                                                            <th class="tt-3">ACCIÓN</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr *ngFor="let appointment of appointments; let ia = index;">
-                                                            <td> {{ appointment.cup }} </td>
-                                                            <td> {{ appointment.name }} </td>
-                                                            <td> {{ appointment.date_time_ini }}</td>
-                                                            <td>
-                                                                <button class="btn btn-delete" title="Eliminar cita" (click)="onDeleteAppointment(appointment)">
-                                                                    <img class="file-icon" src="assets/icons/svg/userProfile/delete_forever-white-18dp.svg" alt="Delete Icon">
-                                                                </button>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
+                                        <div class="card card-info" *ngFor="let appointment of appointments; let ia = index;">
+                                            <div class="card-header">
+                                                <h6>{{ appointment.cup }}&nbsp;&nbsp;{{ appointment.name }}</h6> 
                                             </div>
+                                            <div class="card-body">
+                                                <p>{{ appointment.date_time_ini }}</p>
+                                            </div>
+                                            <div class="card-footer">
+                                                <button class="btn btn-block" title="Eliminar cita" (click)="onDeleteAppointment(appointment)">
+                                                    <img class="file-icon" src="assets/icons/svg/userProfile/delete_forever-white-18dp.svg" alt="Delete Icon">
+                                                    <span class="upload-text"> Eliminar </span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="table text-center list-app">
+                                            <table>
+                                                <thead class="text-center">
+                                                    <tr>
+                                                        <th class="tt-0">CUPS</th>
+                                                        <th class="tt-1">ESTUDIO O CITA</th>
+                                                        <th class="tt-2">FECHA</th>
+                                                        <th class="tt-3">ACCIÓN</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let appointment of appointments; let ia = index;">
+                                                        <td> {{ appointment.cup }} </td>
+                                                        <td> {{ appointment.name }} </td>
+                                                        <td> {{ appointment.date_time_ini }}</td>
+                                                        <td>
+                                                            <button class="btn btn-delete" title="Eliminar cita" (click)="onDeleteAppointment(appointment)">
+                                                                <img class="file-icon" src="assets/icons/svg/userProfile/delete_forever-white-18dp.svg" alt="Delete Icon">
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                     <div class="col-md-3 center-ctrl pad-ctrl">

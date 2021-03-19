@@ -59,7 +59,6 @@
 
 .bottom-header {
     height: 12px;
-    margin-top: 100px;
     background: #61C6E1 0% 0% no-repeat padding-box;
     box-shadow: 0px 5px 10px #00000033;
     opacity: 1;
@@ -67,7 +66,9 @@
 a {
     cursor: pointer;
 }
-
+.menu-sm {
+    display: none;
+}
 @media screen and (min-width: 998px) {
     .logout {
         padding-left: 50%;
@@ -75,21 +76,9 @@ a {
 }
 
 @media screen and (max-width: 767px) {
-    .logout {
-        padding-left: 0px;
-    }
-    .bottom-header {
-        display: none;
-    }
-    .logo-responsive {
+    .menu-sm {
         display: block;
-        position: relative; 
-        width: 80%; 
-        padding-left: 0px;
-    }    
-}
-
-@media screen and (max-width: 767px) {
+    }
     .img-ctrl {
         display: none;
     }
@@ -99,7 +88,46 @@ a {
     .header-text {
         padding-bottom: 0px;
     }
-    
+    .user-name {
+        font: normal normal normal 14px/22px Roboto;
+    }
+    .welcome {
+        font: normal normal bold 16px/22px Roboto;
+    }
+    .logout {
+        padding-left: 0px;
+        font: normal normal bold 16px/22px Roboto;
+    }
+    .bottom-header {
+        display: none;
+    }
+    .logo-responsive {
+        display: block;
+        position: relative; 
+        width: 80%; 
+        padding-left: 0px;
+        cursor: pointer;
+    }  
+}
+
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+    .user-name {
+        font: normal normal normal 14px/22px Roboto;
+    }
+    .welcome {
+        font: normal normal bold 16px/22px Roboto;
+    }
+    .logout {
+        font: normal normal bold 16px/22px Roboto;
+    }
+    .icons {
+        width: 22px;
+    }
+    .fal-logo {
+        margin-top: 6px;
+        margin-left: -30px;
+        width: 134%;
+    }
 }
 
 .modal {

@@ -11,6 +11,52 @@
                         <div class="col-md-12 text-center text-title"><b>OPCIONES</b></div>
                         <div class="col-md-12 al-table">
                             <div class="container">
+                                <div class="card-info">
+                                    <p *ngIf="!appointments" class="info-table">
+                                        Buscando historial ... 
+                                    </p>
+                                    <p *ngIf="appointments?.length == 0" class="info-table">
+                                        Sin resultados. 
+                                    </p>  
+                                </div>
+                                <div class="card card-info" *ngFor="let appointment of appointments; let ia = index;">
+                                    <div class="card-header">
+                                        <h6>{{ appointment.study.cup }}&nbsp;&nbsp;{{ appointment.study.name }}</h6> 
+                                    </div>
+                                    <div class="card-body">
+                                        <p>
+                                            <b>{{ appointment._matchingData.AppointmentDates.date_time_ini.split('-')[0].trim().split('/').reverse().join('/') }}</b>
+                                            &nbsp;&nbsp;
+                                            <b>{{ appointment._matchingData.AppointmentDates.date_time_ini.split('-')[1].trim().toUpperCase() }}</b>
+                                            <button class="btn" [title]="appointment._matchingData.AppointmentStates.state">
+                                                <img width="30" *ngIf="appointment._matchingData.AppointmentStates.id == 1" src="assets/icons/svg/appointmentManagement/icono de aprobado.svg" alt="Icon State">
+                                                <img width="30"  *ngIf="appointment._matchingData.AppointmentStates.id == 4" src="assets/icons/svg/appointmentManagement/icono de cancelado.svg" alt="Icon State">
+                                                <img width="30" *ngIf="appointment._matchingData.AppointmentStates.id == 2" src="assets/icons/svg/appointmentManagement/icono reasignar cita.svg" alt="Icon State">
+                                            </button>
+                                        </p>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="text-center" style="display: inline-flex;">
+                                            <button [disabled]="appointment._matchingData.AppointmentStates.id == 4" [ngStyle]="{'cursor':(appointment._matchingData.AppointmentStates.id == 4)?'not-allowed':'pointer'}" data-toggle="modal" data-target="#dynamicModal" class="btn" (click)="onCancelAppointment(appointment)">
+                                                <img width="30" title="Cancelar cita" src="assets/icons/svg/appointmentManagement/icono cerrar rojo.svg" alt="Icon Cancel">
+                                            </button>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;
+                                            <button [disabled]="appointment._matchingData.AppointmentStates.id == 4" [ngStyle]="{'cursor':(appointment._matchingData.AppointmentStates.id == 4)?'not-allowed':'pointer'}" class="btn" [routerLink]="['/edit-appointment', appointment.id]">
+                                                <img width="30" title="Reasignar cita" src="assets/icons/svg/appointmentManagement/icono reasignar cita.svg" alt="Icon Reasign">
+                                            </button>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;
+                                            <button [disabled]="appointment.study.instructives.length == 0" [ngStyle]="{'cursor':(appointment.study.instructives.length == 0)?'not-allowed':'pointer'}" class="btn" (click)="onOpenInstructive(appointment.study.instructives[0]?.id)">
+                                                <img width="30" title="Descargar instructivo" src="assets/icons/svg/appointmentManagement/icono descargar pdf.svg" alt="Download pdf">
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="pagination text-center card-info">
+                                    <a (click)="onPreviousList()">Anterior&nbsp;&nbsp;<span><b><<</b></span></a>
+                                    &nbsp;&nbsp;<span>{{offset}}</span>&nbsp;&nbsp;
+                                    <a (click)="onNextList()"><span><b>>></b></span>&nbsp;&nbsp;Siguiente</a> 
+                                </div>
+
                                 <div class="table-responsive">
                                     <div class="table">
                                         <table>

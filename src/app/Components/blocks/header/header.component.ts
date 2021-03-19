@@ -52,7 +52,9 @@ export class HeaderComponent implements OnInit {
       }
     })
   }
-
+  onRedirect(url: string) {
+    window.open(url, '_blank');
+  }
   onConfirm(event) {
     if(event == "LOGOUT") this.logout();
   }

@@ -2,7 +2,7 @@
     <button style="z-index: 9;" type="button" class="navbar-toggler bg-light" data-toggle="collapse" data-target="#nav">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <img class="img-responsive logo-responsive" 
+    <img class="img-responsive logo-responsive"  routerLink="/home"
         src="assets/img/png/logo_transparente_fundacion_alejandro_londono-1536x277.png" alt="Fal logo"
     />
     <div class="collapse navbar-collapse justify-content-between" id="nav" style="background-color: transparent;">
@@ -13,6 +13,12 @@
                     <span class="user-name">{{user}}</span>
 
                 </p>
+                <div *ngIf="user" class="menu-sm">
+                    <ul><li routerLink="/user-profile" class="user-name">Perfil de Usuario</li></ul>
+                    <ul><li routerLink="/assign-appointment" class="user-name">Asignar Citas</li></ul>
+                    <ul><li routerLink="appointment-list" class="user-name">Gestión de Citas</li></ul>
+                    <ul><li (click)="onRedirect('https://www.samfundacion.com/resultados/#/resultados/')" class="user-name">Descarga tus Resultados</li></ul>
+                </div>
             </div>
             <div class="col-md-4 text-center img-ctrl">
                 <img class="img-responsive fal-logo" src="assets/img/png/logo_transparente_fundacion_alejandro_londono-1536x277.png" alt="Fal logo">
@@ -26,7 +32,7 @@
         </div>
     </div>
 </nav>
-<nav [ngStyle]="{'top': (user == undefined)?'-16px':'0px'}" class="navbar navbar-expand-md fixed-top bottom-header"></nav>
+<nav [ngStyle]="{'margin-top': (user)?'100px':'8%'}" class="navbar navbar-expand-md fixed-top bottom-header"></nav>
 <!-- [ ./ Static Modal ] -->
 <div class="modal" id="staticModal">
     <div class="modal-dialog modal-sm">
