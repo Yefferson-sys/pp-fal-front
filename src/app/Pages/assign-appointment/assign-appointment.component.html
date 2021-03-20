@@ -28,20 +28,22 @@
                                 </div><br>
 
                                 <div class="row">
-                                    <div class="col-md-7 pad-ctrl">
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-6 pad-ctrl">
                                         <div class="row">
-                                            <div class="col-md-2">
+                                            <div class="col-md-4">
                                                 <span class="aa-b-a"><b>Afiliado(a):</b></span>
                                             </div>
-                                            <div class="col-md-10">
+                                            <div class="col-md-8">
                                                 <span *ngIf="people?.last_name != null" class="aa-b-n"> {{ people?.first_name + ' ' + people?.middle_name + ' ' + people?.last_name + ' ' + people?.last_name_two }} </span>
                                             </div>
                                         </div>
+                                        <br>
                                         <div class="row padd-ctrl">
                                             <div class="col-md-4">
                                                 <span class="aa-b-a"><b>Seleccione la entidad:</b></span>
                                             </div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-8">
                                                 <input class="entity-text" type="text" placeholder="EPS" readonly [(ngModel)]="epsSelected.name">
                                                 <div *ngIf="epsSelected.name == ''" class="open-select"></div>
                                                 <select [disabled]="!activateFields" class="select_entity" [title]="(epsSelected.name == '')?'Seleccionar entidad':epsSelected.name" name="select_entity" [(ngModel)]="selectEps" (change)="onSelectEps($event)">
@@ -54,7 +56,7 @@
                                             <div class="col-md-4">
                                                 <span class="aa-b-a"><b>Seleccione la sede:</b></span>
                                             </div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-8">
                                                 <input class="center-text" type="text" placeholder="Sede" readonly [(ngModel)]="center.name">
                                                 <div *ngIf="center.name == ''" class="open-select"></div>
                                                 <select [disabled]="!activateFields" class="select_center" [title]="(center.name == '')?'Seleccionar sede':center.name" name="select_center" [(ngModel)]="selectCenter" (change)="onSelectCenter($event)">
@@ -67,42 +69,51 @@
                                             <div class="col-md-4">
                                                 <span class="aa-b-a"><b>Ingresar Código CUPS:</b></span>
                                             </div>
-                                            <div class="col-md-5">
+                                            <div class="col-md-8">
                                                 <input [disabled]="epsSelected?.name == '' || !studies || !activeCups" data-toggle="dropdown" type="text" class="cups-text dropdown-toggle" placeholder="EJ. 881132 ECOGRAFIA DE CUELLO" [title]="(CUPS != '')? CUPS: 'EJEMPLO: 881132 ECOGRAFIA DE CUELLO'" [(ngModel)]="CUPS" (click)="onClickCups()">
+                                                &nbsp; 
+                                                <span class="aa-b-cups-icon"><strong>&nbsp;+&nbsp;</strong></span>
                                                 <div id="drop" class="dropdown-menu">
                                                     <a class="dropdown-item" *ngIf="!studies">Buscando, un momento ... </a>
                                                     <a (click)="onSelectCups(studio.id)" class="dropdown-item" *ngFor="let studio of studies | filter:CUPS; let is = index;" > {{ studio.cup + ' ' + studio.name }} </a>
                                                 </div>
                                             </div>
-                                            <div class="col-md-2"  [title]="(epsSelected?.name == '' || !studio || !activeCups)?'Primero debes seleccionar EPS y CUPS':'Asignar cita'">
+                                            <div class="col-md-4"></div>
+                                            <div class="col-md-7 text-center" style="margin-top: 20px;"  [title]="(epsSelected?.name == '' || !studio || !activeCups)?'Primero debes seleccionar EPS y CUPS':'Asignar cita'">
                                                 <button *ngIf="epsSelected?.name == '' || !studio || CUPS == ''" class="btn aa-b-aa" (click)="onVerify()">ASIGNAR CITA</button>
                                                 <button (click)="onAssign()" id="assignApp" *ngIf="epsSelected?.name != '' && studio && activeCups && CUPS != ''" class="btn aa-b-aa" data-toggle="modal" data-target="#appointmentModal">ASIGNAR CITA</button>
                                             </div>
                                         </div>
                                         <br>
                                     </div>
-                                    <div class="col-md-5 pad-ctrl">
+                                    <div class="col-md-4 pad-ctrl">
                                         <div class="row">
-                                            <span class="col-md-12 aa-b-cups">Cómo acceder al número de autorización y código CUPS:</span>
+                                            <div class="col-md-12 cups-quest" data-toggle="modal" data-target="#cupsModal">
+                                                <div>
+                                                    <span class="material-icons" style="font-size:50px;color:blue">contact_support</span>
+                                                </div>
+                                                <div>
+                                                    <span><b>¿Como puedo acceder al número de autorización y código CUPS?</b></span>
+                                                </div>
+                                            </div>
                                             <div class="col-md-12">
-                                                <div class="table-responsive">
-                                                    <div class="table">
-                                                        <table>
-                                                            <tbody>
-                                                                <tr>
-                                                                    <td style="text-align: center !important; align-items: center !important;">
-                                                                        <img width="430px" src="assets/img/png/instructivos cups eps.png" alt="CUPS instructions">
-                                                                    </td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
+                                                <div>
+                                                    <label for="document_file"><strong>Adjuntar orden: </strong></label>
+                                                    <input class="select-file form-control" [placeholder]="(fileName)?fileName:'Seleccionar archivo'" readonly/>
+                                                    <input (change)="onSelectOrder($event)"
+                                                        type="file" class="form-control upload-file-hide" accept="application/pdf,image/*"
+                                                    />
+                                                    <div class="upload-file">
+                                                        <img class="file-icon" src="assets/icons/svg/userProfile/feed-white-18dp.svg" alt="Upload Icon">
+                                                        <span class="upload-text"> {{ (fileName)?'Cambiar':'Adjuntar' }} </span>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-md-1"></div>
                                 </div>
-
+                                <!--
                                 <div class="row">
                                     <div class="col-md-7">
                                         </div>
@@ -119,33 +130,48 @@
                                         
                                     </div>
                                 </div>
+                                -->
                                 <br><hr><br>
                                 <div class="row" *ngIf="appointments?.length > 0">
                                     <div class="col-md-1"></div>
                                     <div class="col-md-7 pad-ctrl">
-                                        <div class="table-responsive">
-                                            <div class="table text-center">
-                                                <table>
-                                                    <thead class="text-center">
-                                                        <tr>
-                                                            <th class="tt-1">ESTUDIO O CITA</th>
-                                                            <th class="tt-2">FECHA</th>
-                                                            <th class="tt-2">ACCIÓN</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr *ngFor="let appointment of appointments; let ia = index;">
-                                                            <td> {{ appointment.cup }} {{ appointment.name }} </td>
-                                                            <td> {{ appointment.date_time_ini }}</td>
-                                                            <td>
-                                                                <button class="btn btn-delete" title="Eliminar cita" (click)="onDeleteAppointment(appointment)">
-                                                                    <img class="file-icon" src="assets/icons/svg/userProfile/delete_forever-white-18dp.svg" alt="Delete Icon">
-                                                                </button>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
+                                        <div class="card card-info" *ngFor="let appointment of appointments; let ia = index;">
+                                            <div class="card-header">
+                                                <h6>{{ appointment.cup }}&nbsp;&nbsp;{{ appointment.name }}</h6> 
                                             </div>
+                                            <div class="card-body">
+                                                <p>{{ appointment.date_time_ini }}</p>
+                                            </div>
+                                            <div class="card-footer">
+                                                <button class="btn btn-block" title="Eliminar cita" (click)="onDeleteAppointment(appointment)">
+                                                    <img class="file-icon" src="assets/icons/svg/userProfile/delete_forever-white-18dp.svg" alt="Delete Icon">
+                                                    <span class="upload-text"> Eliminar </span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="table text-center list-app">
+                                            <table>
+                                                <thead class="text-center">
+                                                    <tr>
+                                                        <th class="tt-0">CUPS</th>
+                                                        <th class="tt-1">ESTUDIO O CITA</th>
+                                                        <th class="tt-2">FECHA</th>
+                                                        <th class="tt-3">ACCIÓN</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let appointment of appointments; let ia = index;">
+                                                        <td> {{ appointment.cup }} </td>
+                                                        <td> {{ appointment.name }} </td>
+                                                        <td> {{ appointment.date_time_ini }}</td>
+                                                        <td>
+                                                            <button class="btn btn-delete" title="Eliminar cita" (click)="onDeleteAppointment(appointment)">
+                                                                <img class="file-icon" src="assets/icons/svg/userProfile/delete_forever-white-18dp.svg" alt="Delete Icon">
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                     <div class="col-md-3 center-ctrl pad-ctrl">
@@ -182,6 +208,37 @@
             <app-appointment-info [type]="type" [dateMax]="dateMax" [medicalOfficesId]="medicalOfficesId" [optionsModal]="optionsModal" [eps]="epsSelected" [center]="center" [studio]="studio" [people]="people" [medicalOffices]="medicalOffices" [appointmentShedule]="appointmentShedule" (appointment)="onAppointment($event)"></app-appointment-info>
         </div>
       </div>
+    </div>
+</div>
+
+<div class="modal" id="cupsModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">COMO ACCEDER AL NÚMERO DE AUTORIZACIÓN Y CÓDIGO CUPS</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body" (click)="onOpenCups('assets/img/png/instructivos cups eps.png')">
+                <div class="table-responsive">
+                    <div class="table">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td style="text-align: center !important; align-items: center !important;">
+                                        <img width="1080px" src="assets/img/png/instructivos cups eps.png" alt="CUPS instructions">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-confirm" data-dismiss="modal">
+                    <span><img width="20" src="assets/icons/svg/dynamicModal/cancel-white-18dp.svg" alt="Close Icon">&nbsp;CERRAR</span>
+                </button>
+            </div>
+        </div>
     </div>
 </div>
   

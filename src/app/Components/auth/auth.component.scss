@@ -378,6 +378,7 @@ input[type=text]:placeholder {
 
 @media screen and (max-width: 767px) {
     #formContent {
+        margin-top: 56px;
         width: 100%;
         height: 0%;
         .row-ctrl, .sign-in, .sign-up {

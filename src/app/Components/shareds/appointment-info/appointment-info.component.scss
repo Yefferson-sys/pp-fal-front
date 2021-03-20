@@ -5,7 +5,9 @@ select, input[type=file] {
 .hide-ctrl {
     display: none;
 }
-
+.col-md-2, .col-md-4 {
+    margin-top: 20px;
+}
 .aa-b-sub-title {
     height: 37px;
     padding-left: 15px;

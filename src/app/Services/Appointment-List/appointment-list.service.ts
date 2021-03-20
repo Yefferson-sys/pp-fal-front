@@ -23,6 +23,9 @@ export class AppointmentListService {
   getAppointmentsList(identification: string, offset: number): Observable<any> {
     return this.http.post(this.api+'Appointments/getAppointmentsByIdentification.json', {identification, offset}, this.httpHeaders);
   }
+  getInstructivedoc(id: number): Observable<any> {
+    return this.http.post(this.api+'Instructives/getInstructiveDocuement.json', {id}, this.httpHeaders);
+  }
   cancelAppointment(data: any): Observable<any> {
     return this.http.post(this.api+'AppointmentDates/cancelAppointmentDates.json', data, this.httpHeaders);
   }

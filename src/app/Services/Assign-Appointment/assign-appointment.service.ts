@@ -43,6 +43,19 @@ export class AssignAppointmentService {
   saveOrder(order: any): Observable<any> {
     return this.http.post(this.api+'Orders/saveOrder.json', order, this.httpHeaders);
   }
+  saveOrderDoc(data: any, files: FileList): Observable<any> {
+    let payload = new FormData();
+    let httpHeaders = {
+      headers: new HttpHeaders({
+        'authgl': 'glbearer '+localStorage.getItem('token')
+      })
+    }
+    for(let i=0; i<files.length; i++) {
+      payload.append('files[]', files.item(i));
+    }
+    payload.append('data', JSON.stringify(data));
+    return this.http.post(this.api+'Orders/saveFiles.json', payload, httpHeaders);
+  }
   saveOrderAppointment(appointments_ids: Array<any>, order_details_id: number) {
     return this.http.post(this.api+'Orders/saveOrderAppointment.json', {appointments_ids, order_details_id}, this.httpHeaders);
   }

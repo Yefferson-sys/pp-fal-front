@@ -43,6 +43,7 @@ export class UserProfileComponent implements OnInit {
   fileName: string;
   type: string;
   optionsModal: OptionsModal;
+  enableSave: boolean = false;
   constructor(
     private userProfileSvc: UserProfileService,
     private toastSvc: ToastService,
@@ -52,6 +53,9 @@ export class UserProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const options = {opacity: 1, enableHtml: true};
+    this.toastSvc.clear();
+    this.toastSvc.info('<b>Buscando información...</b>', '¡Un momento por favor!', options);
     this.getPeople();
   }
 
@@ -86,9 +90,14 @@ export class UserProfileComponent implements OnInit {
         break;
     
       case 'GUARDAR INFO':
-          this.updatePhoto();
-          this.updateDocument();
-          this.updatePeopleInfo();
+          const emptyField = this.emptyFields(), options = {opacity: 1, enableHtml: true};
+          if(!this.emptyFields) {
+            this.updatePhoto();
+            this.updateDocument();
+            this.updatePeopleInfo();
+          } else {
+            this.toastSvc.warning('Te falta diligenciar el campo <b>'+emptyField+'</b>', '¡Información incompleta!', options);
+          }
         break;
       case 'IR A HOME':
           this.router.navigate(['home']);
@@ -265,8 +274,12 @@ export class UserProfileComponent implements OnInit {
   }
 
   private getDocument(peopleId: string) {
+    const options = {opacity: 1, enableHtml: true};
     this.userProfileSvc.getDocument(peopleId).subscribe(
       success => {
+        this.toastSvc.clear();
+        this.toastSvc.success("<b>Ya puedes editar tu perfil</b>", "¡Busqueda exitosa!", options);
+        this.enableSave = true;
         if(success[this.keys.saveId]['length'] > 0) {
           this.fileName = null;
           this.documentInfo = success[this.keys.saveId][0];
@@ -276,6 +289,18 @@ export class UserProfileComponent implements OnInit {
         console.error(error);
       }
     )
+  }
+
+  private emptyFields() {
+    if(this.people.first_name == '') return 'Primer nombre';
+    if(!this.people.last_name) return 'Apellido';
+    if(!this.people.birthdate) return 'Fecha de cumpleaños';
+    if(!this.people.address) return 'Dirección';
+    if(!this.people.phone) return 'Número de contacto';
+    if(!this.people.phone_sms) return 'Numero de envio sms';
+    if(!this.people.email) return 'Correo electrónico';
+    if(!this.people.gender) return 'Genero';
+    return false;
   }
 
 }

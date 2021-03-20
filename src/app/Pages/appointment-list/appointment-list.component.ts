@@ -7,6 +7,7 @@ import { AppointmentListService } from 'src/app/Services/Appointment-List/appoin
 import { AssignAppointmentService } from 'src/app/Services/Assign-Appointment/assign-appointment.service';
 import { EditAppointmentService } from 'src/app/Services/Edit-Appointment/edit-appointment.service';
 import { UserProfileService } from 'src/app/Services/User-Profile/user-profile.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-appointment-list',
@@ -15,7 +16,8 @@ import { UserProfileService } from 'src/app/Services/User-Profile/user-profile.s
 })
 export class AppointmentListComponent implements OnInit {
   offset: number = 1;
-  keys: any = {appointment: 'appointment', response: 'response', success: 'success', appointments: 'appointments', people: 'people'};
+  api: string = environment.apiUrl;
+  keys: any = {document: 'document', appointment: 'appointment', response: 'response', success: 'success', appointments: 'appointments', people: 'people'};
   appointments: Array<Appointment>;
   cancelInfo: any;
   people: People = {first_name: ''};
@@ -71,6 +73,21 @@ export class AppointmentListComponent implements OnInit {
       medical_offices_id: appointment.medical_offices_id,
       type_study: appointment.study.type_study
     }
+  }
+  onOpenInstructive(instructiveId: number) {
+    const options = {opacity: 1,enableHtml: true};
+    this.toastSvc.info('Un momento por favor ...', '!Buscando instructivo!' , options);
+    this.appointmentListSvc.getInstructivedoc(instructiveId).subscribe(
+      success => {
+        if(success[this.keys.success]) {
+          this.toastSvc.clear();
+          window.open(success[this.keys.document][0]['url'], '_blank');
+        }
+      }, 
+      error => {
+        console.error(error);
+      }
+    )
   }
   /***************************************************************************************** */
   /** -> Función encarga de obtener la información de cita.

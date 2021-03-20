@@ -38,6 +38,7 @@ export class AuthComponent implements OnInit {
           this.toastSvc.clear();
           localStorage.setItem('token', success['data']['token']);
           localStorage.setItem('person', JSON.stringify(success['person']));
+          localStorage.setItem('userInfo', JSON.stringify(success['user']));
           localStorage.setItem('identification', success['user']['identification']);
           this.toastSvc.success("Bienvenido(a) "+success['person']['name'], "¡Verificación exitosa!", options);
           this.router.navigate(['home']);

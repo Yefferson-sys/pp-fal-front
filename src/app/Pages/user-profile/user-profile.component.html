@@ -26,6 +26,7 @@
                                 <div class="col-md-6 info-user"></div>
                                 <div class="col-md-6 info-user">
                                     <div class="active">
+                                        <label for="first_name"><strong>Primer nombre*: </strong></label>
                                         <input type="text" class="form-control" [(ngModel)]="people.first_name"
                                             name="first_name" placeholder="Primer nombre:" 
                                         />
@@ -33,6 +34,7 @@
                                 </div>
                                 <div class="col-md-6 info-user">
                                     <div class="active">
+                                        <label for="middle_name"><strong>Segundo nombre: </strong></label>
                                         <input type="text" class="form-control" [(ngModel)]="people.middle_name"
                                             name="middle_name" placeholder="Segundo nombre:" 
                                         />
@@ -40,6 +42,7 @@
                                 </div>
                                 <div class="col-md-6 info-user">
                                     <div class="active">
+                                        <label for="last_name"><strong>Apellidos*: </strong></label>
                                         <input type="text" class="form-control" [(ngModel)]="people.last_name"
                                             name="last_name" placeholder="Apellidos:"
                                         />
@@ -47,6 +50,7 @@
                                 </div>
                                 <div class="col-md-6 info-user">
                                     <div class="active">
+                                        <label for="mydate"><strong>Fecha de nacimiento*: </strong></label>
                                         <div class="date-picker">
                                             <mdb-date-picker [locale]="'es'" [inline]="true" name="mydate" [options]="myDatePickerOptions" 
                                                 [openOnFocus]="true" inlineIcon="" [placeholder]="'Fecha de nacimiento:'" [(ngModel)]="people.birthdate" required
@@ -56,24 +60,27 @@
                                 </div>
                                 <div class="col-md-6 info-user">
                                     <div class="active">
+                                        <label for="document_types_id"><strong>Tipo de documento: </strong></label>
                                         <input type="text" class="form-control" [value]="(documentTypes)?documentTypes[people.document_types_id-1].type: ''"
                                             name="document_types_id" placeholder="Tipo de documento:" readonly
                                         />
                                         <span class="open-select"></span>
-                                        <select class="select_doc_type" name="select_doc_type" [(ngModel)]="people.document_types_id">
+                                        <select class="select_doc_type" name="select_doc_type" [(ngModel)]="people.document_types_id" disabled>
                                             <option [value]="documentType.id" *ngFor="let documentType of documentTypes; let idt = index;">{{ documentType.type }}</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-6 info-user">
                                     <div class="active">
+                                        <label for="identification"><strong>Número de documento: </strong></label>
                                         <input type="text" class="form-control" [(ngModel)]="people.identification"
-                                            name="identification" placeholder="Número de documento:"
+                                            name="identification" placeholder="Número de documento:" readonly
                                         />
                                     </div>
                                 </div>
                                 <div class="col-md-6 info-user">
                                     <div class="active">
+                                        <label for="address"><strong>Dirección*: </strong></label>
                                         <input type="text" class="form-control" [(ngModel)]="people.address"
                                             name="address" placeholder="Dirección:"
                                         />
@@ -81,6 +88,7 @@
                                 </div>
                                 <div class="col-md-6 info-user">
                                     <div class="active">
+                                        <label for="phone_sms"><strong>Número de envio sms*: </strong></label>
                                         <input type="text" class="form-control" [(ngModel)]="people.phone_sms"
                                             name="phone_sms" placeholder="Celular SMS:"
                                         />
@@ -88,6 +96,7 @@
                                 </div>
                                 <div class="col-md-6 info-user">
                                     <div class="active">
+                                        <label for="phone"><strong>Número de contacto*: </strong></label>
                                         <input type="text" class="form-control" [(ngModel)]="people.phone"
                                             name="phone" placeholder="Teléfono:"
                                         />
@@ -95,6 +104,7 @@
                                 </div>
                                 <div class="col-md-6 info-user">
                                     <div class="active">
+                                        <label for="email"><strong>Correo electrónico*: </strong></label>
                                         <input type="text" class="form-control" [(ngModel)]="people.email"
                                             name="email" placeholder="Correo electrónico:"
                                         />
@@ -103,6 +113,7 @@
                                 
                                 <div class="col-md-6 info-user">
                                     <div class="active">
+                                        <label for="gender"><strong>Género*: </strong></label>
                                         <input type="text" class="form-control" [value]="(genders)?genders[people.gender].gender: ''"
                                             name="gender" placeholder="Género:" readonly
                                         />
@@ -114,7 +125,7 @@
                                 </div>
                                 <div class="col-md-6 info-user">
                                     <div>
-                                        <label for="document_file"><strong>Adjuntar {{ (documentTypes)?documentTypes[people.document_types_id-1].type: 'documento de identidad' }}</strong></label>
+                                        <label for="document_file"><strong>Adjuntar {{ (documentTypes)?documentTypes[people.document_types_id-1].type: 'documento de identidad' }}: </strong></label>
                                         <input class="select-file form-control" [placeholder]="(fileName)?fileName:'Seleccionar archivo'" readonly/>
                                         <input (change)="onSelectDocument($event)"
                                             type="file" class="form-control upload-file-hide" accept="application/pdf,image/*"
@@ -142,7 +153,7 @@
                             <div class="row">
                                 <div class="col-md-5"></div>
                                 <div class="col-md-2 text-center">
-                                    <div class="save-people-info" data-toggle="modal" data-target="#dynamicModal"  (click)="onOpenModal('GUARDAR INFO')">
+                                    <div class="save-people-info" data-toggle="modal" data-target="#dynamicModal" *ngIf="enableSave"  (click)="onOpenModal('GUARDAR INFO')">
                                         <img src="assets/icons/svg/userProfile/save-white-18dp.svg" alt="">
                                         <span>GUARDAR</span>
                                     </div>
