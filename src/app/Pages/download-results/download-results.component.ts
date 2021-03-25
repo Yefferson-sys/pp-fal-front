@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DownloadResultsService } from 'src/app/Services/Download-Results/download-results.service';
 
-//declare var M: any;
 import * as moment from 'moment';
 import { environment } from 'src/environments/environment';
 import { IMyOptions, ToastService } from 'ng-uikit-pro-standard';
