@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthComponent } from './Components/auth/auth.component';
 import { AppointmentListComponent } from './Pages/appointment-list/appointment-list.component';
 import { AssignAppointmentComponent } from './Pages/assign-appointment/assign-appointment.component';
+import { DownloadResultsComponent } from './Pages/download-results/download-results.component';
 import { EditAppointmentComponent } from './Pages/edit-appointment/edit-appointment.component';
 import { HomeComponent } from './Pages/home/home.component';
 import { NgInitComponent } from './Pages/ng-init/ng-init.component';
@@ -36,6 +37,10 @@ const routes: Routes = [
   {
     path: 'edit-appointment/:id',
     component: EditAppointmentComponent
+  },
+  {
+    path: 'download-results',
+    component: DownloadResultsComponent
   }
 ];
 

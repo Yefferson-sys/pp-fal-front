@@ -22,6 +22,7 @@ import { EditAppointmentComponent } from './Pages/edit-appointment/edit-appointm
 import { AppointmentInfoComponent } from './Components/shareds/appointment-info/appointment-info.component';
 import { DynamicModalComponent } from './Components/shareds/dynamic-modal/dynamic-modal.component';
 import { StaticModalsComponent } from './Components/shareds/static-modals/static-modals.component';
+import { DownloadResultsComponent } from './Pages/download-results/download-results.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { StaticModalsComponent } from './Components/shareds/static-modals/static
     EditAppointmentComponent,
     AppointmentInfoComponent,
     DynamicModalComponent,
-    StaticModalsComponent
+    StaticModalsComponent,
+    DownloadResultsComponent
   ],
   imports: [
     BrowserModule,
