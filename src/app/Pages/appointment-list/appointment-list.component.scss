@@ -122,6 +122,10 @@ table {
     }
 }
 
+.card-info {
+    display: none;
+}
+
 @media screen and (max-width: 1024px) {
     .card {
         margin-top: 140px;

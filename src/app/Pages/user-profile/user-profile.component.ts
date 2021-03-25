@@ -30,6 +30,8 @@ export class UserProfileComponent implements OnInit {
     todayBtnTxt: "Hoy",
     clearBtnTxt: "Limpiar",
     closeBtnTxt: "Cerrar",
+    minYear: 1900,
+		maxYear: new Date().getFullYear()
   };
   genders: Array<Gender>;
   documentTypes: Array<DocumentType>;
@@ -91,7 +93,7 @@ export class UserProfileComponent implements OnInit {
     
       case 'GUARDAR INFO':
           const emptyField = this.emptyFields(), options = {opacity: 1, enableHtml: true};
-          if(!this.emptyFields) {
+          if(!emptyField) {
             this.updatePhoto();
             this.updateDocument();
             this.updatePeopleInfo();
@@ -299,7 +301,7 @@ export class UserProfileComponent implements OnInit {
     if(!this.people.phone) return 'Número de contacto';
     if(!this.people.phone_sms) return 'Numero de envio sms';
     if(!this.people.email) return 'Correo electrónico';
-    if(!this.people.gender) return 'Genero';
+    if(!this.people.gender == null) return 'Genero';
     return false;
   }
 
