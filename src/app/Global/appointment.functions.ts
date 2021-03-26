@@ -40,12 +40,21 @@ export function dateAddMinutes(date: Date, minutes: number) {
  * @returns 
  */
 export function appointmentsShedule(dateAppointment: string, medicalOffices: Array<MedicalOffices>, average_time: number) {
-      let dateIni = dateAppointment + ' 07:00:00', dateEnd = dateAppointment + ' 18:00:00', count:number = 0, appointmentShedule: Array<AppointmentShedule> = [];
+      let dateIni = dateAppointment + ' 07:00:00', dateEnd = dateAppointment + ' 18:00:00', count:number = 0, appointmentShedule: Array<AppointmentShedule> = [], dataSchedule: AppointmentShedule;
       while(new Date(dateIni) < new Date(dateEnd)) {
         if ( (new Date(dateIni) < new Date(dateAppointment+' 12:00:00')) || (new Date(dateIni) >= new Date(dateAppointment+' 14:00:00')) ) {
           medicalOffices.forEach((e)=> {
+            dataSchedule = {
+              id: count, 
+              date: dateIni, 
+              place: e.MedicalOffices.center.name,
+              place_id: e.MedicalOffices.centers_id,
+              consulting_room: e.MedicalOffices.name,
+              consulting_room_id: e.MedicalOffices.id,
+              state: 'Not Available'
+            }
             if ((new Date(dateAppointment) < new Date(e.MedicalOffices.availableDates.dateEnd)) && e.MedicalOffices.id != 30) {
-              let isAssigned:boolean = false;
+              let isAssigned:boolean = false, isRestricted: boolean = false;
               e.MedicalOffices.appointments.every(ei=> {
                 if(dateAddMinutes(new Date(ei.date_time_ini), 0) == dateIni) {
                   isAssigned = true;
@@ -53,49 +62,35 @@ export function appointmentsShedule(dateAppointment: string, medicalOffices: Arr
                 }
                 return true;
               })
+              e.MedicalOffices.medicalRestriction.every(eii => {
+                if(eii.state == 0 && dateAddMinutes(new Date(eii.date_ini), 0) <= dateIni && dateAddMinutes(new Date(eii.date_end), 0) >= dateIni) {
+                  isRestricted = true;
+                  return false;
+                }
+                return true;
+              })
               if(!isAssigned) {
-                appointmentShedule.push({
-                  id: count, 
-                  date: dateIni, 
-                  place: e.MedicalOffices.center.name,
-                  place_id: e.MedicalOffices.centers_id,
-                  consulting_room: e.MedicalOffices.name,
-                  consulting_room_id: e.MedicalOffices.id,
-                  state: 'Available'
-                });
+                if(isRestricted) {
+                  dataSchedule.state = 'Restricted';
+                } else {
+                  dataSchedule.state = 'Available';
+                }
               } else {
-                appointmentShedule.push({
-                    id: count, 
-                    date: dateIni, 
-                    place: e.MedicalOffices.center.name,
-                    place_id: e.MedicalOffices.centers_id,
-                    consulting_room: e.MedicalOffices.name,
-                    consulting_room_id: e.MedicalOffices.id,
-                    state: 'Assigned'
-                  });
+                dataSchedule.state = 'Assigned';
               }
-            } else {
-                appointmentShedule.push({
-                    id: count, 
-                    date: dateIni, 
-                    place: e.MedicalOffices.center.name,
-                    place_id: e.MedicalOffices.centers_id,
-                    consulting_room: e.MedicalOffices.name,
-                    consulting_room_id: e.MedicalOffices.id,
-                    state: 'Not Available'
-                });
             }
+            appointmentShedule.push(dataSchedule);
           })
         } else {
-            appointmentShedule.push({
-                id: count, 
-                date: dateIni, 
-                place: '',
-                place_id: 0,
-                consulting_room: '',
-                consulting_room_id: 0,
-                state: 'Lunch'
-            });
+          appointmentShedule.push({
+              id: count, 
+              date: dateIni, 
+              place: '',
+              place_id: 0,
+              consulting_room: '',
+              consulting_room_id: 0,
+              state: 'Lunch'
+          });
         }
         count++;
         dateIni =  dateAddMinutes(new Date(dateIni), average_time);

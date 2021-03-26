@@ -39,23 +39,24 @@
         </div>
 
         <div class="result-list">
-            <div class="row" *ngFor="let item of items$; let i = index;">
+            <div class="row" *ngFor="let item of items$ | paginate: {itemsPerPage: itemsPerPage, currentPage: page}; let i = index;">
                 <div class="col-md-11">
                     <div class="card">
                         <div class="card-header">
                             <div class="row">
                                 <div class="col-md-3">
-                                    <p>Información</p>
+                                    <p style="cursor: pointer;" (click)="showCtrl('info-'+i)">Información</p>
+                                    <span (click)="showCtrl('download-'+i)" title="Descarga Individual" class="material-icons resultIcon">system_update_alt</span>
                                 </div>
                                 <div class="col-md-8">
-                                    <p>Descargar Estudios</p>
+                                    <p style="cursor: pointer;" (click)="showCtrl('download-'+i)">Descargar Estudios</p>
                                 </div>
-                                <div class="col-md-1"  (click)="downloadBlock(item, i);">
+                                <div class="col-md-1"  (click)="downloadBlock(item, i);"  title="Descargar Estudios">
                                     <span><img src="assets/icons/svg/downloadResults/download-white-18dp.svg" alt="Download Icon"></span>
                                 </div>
                             </div>
                         </div>
-                        <div class="card-body" [ngStyle]="{'border-left':(colorBarra == 'studies-s')?'#73D63B solid 17px':'#afafaf solid 17px'}">
+                        <div [id]="'info-'+i" class="card-body show-ctrl" [ngStyle]="{'border-left':(colorBarra == 'studies-s')?'#73D63B solid 17px':'#afafaf solid 17px'}">
                             <div class="row">
                                 <div class="col-md-3 order">
                                     <strong>N° de Orden</strong><br>
@@ -75,6 +76,29 @@
                                 </div>
                             </div>
                         </div>
+                        <div [id]="'download-'+i" class="card-body hide-ctrl" [ngStyle]="{'border-left':(colorBarra == 'studies-s')?'#73D63B solid 17px':'#afafaf solid 17px'}">
+                            <div class="row">
+                                <div class="col-md-12 order">
+                                    <strong>Nombre del Paciente: </strong>
+                                    <label>{{item.people_name}}</label>
+                                </div>
+                                <div class="col-md-12"  style="border-top: gray solid 1px;" *ngFor="let study of listStudies[absoluteIndex(i)]; let x = index;">
+                                    <div style="display: -webkit-box;" *ngIf="study != undefined">
+                                        <div style="width: 90%; text-align: left;">
+                                            {{study.name}}
+                                        </div>
+                                        <div style="width: 10%; text-align: end;">
+                                            <div style="cursor: pointer;" *ngIf="study.Results_state == '1' && item.state_download == '1' " title="Descargar resultado" (click)="downloadResult(study.result_id, item, study.Results_state, study.name);">
+                                                <span class="material-icons" style="color: blue;">download</span>
+                                            </div>
+                                            <div style="cursor: not-allowed;" *ngIf="study.Results_state == '0' || item.state_download == '0' " title="No se permite la descarga">
+                                                <span class="material-icons" style="color: blue;">download</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-1">
@@ -83,6 +107,7 @@
                     />
                 </div>
             </div>
+            <pagination-controls (pageChange)="page = $event" previousLabel="Anterior" nextLabel="Siguiente"></pagination-controls>
         </div>
     </div>
 </div>
@@ -101,7 +126,7 @@
                    <div class="col-md-6">
                        <label for="dateIni">Fecha Inicial: </label>
                        <div class="date-picker">
-                            <mdb-date-picker [locale]="'es'" [inline]="true" name="mydate" [options]="myDatePickerOptions" 
+                            <mdb-date-picker [locale]="'es'" [inline]="false" name="mydate" [options]="myDatePickerOptions" 
                                 [openOnFocus]="true" inlineIcon="" [placeholder]="'Fecha Inicial:'" [(ngModel)]="dateIni" required
                             ></mdb-date-picker> 
                         </div>
@@ -109,7 +134,7 @@
                    <div class="col-md-6">
                        <label for="dateEnd">Fecha Final: </label>
                        <div class="date-picker">
-                            <mdb-date-picker [locale]="'es'" [inline]="true" name="mydate" [options]="myDatePickerOptions" 
+                            <mdb-date-picker [locale]="'es'" [inline]="false" name="mydate" [options]="myDatePickerOptions" 
                                 [openOnFocus]="true" inlineIcon="" [placeholder]="'Fecha Final:'" [(ngModel)]="dateEnd" required
                             ></mdb-date-picker> 
                         </div>

@@ -159,6 +159,18 @@ export class DownloadResultsComponent implements OnInit {
 		}
 	}
 
+	showCtrl(type: string) {
+		let showCtrl = document.getElementById(type).classList;
+		if(type.split('-')[0] == 'info' && showCtrl.contains('hide-ctrl')) {
+			showCtrl.replace('hide-ctrl', 'show-ctrl');
+			document.getElementById(['download', type.split('-')[1]].join('-')).classList.replace('show-ctrl', 'hide-ctrl');
+		}
+		if(type.split('-')[0] == 'download' && showCtrl.contains('hide-ctrl')) {
+			document.getElementById(['info', type.split('-')[1]].join('-')).classList.replace('show-ctrl', 'hide-ctrl');
+			showCtrl.replace('hide-ctrl', 'show-ctrl');
+		}
+		
+	}
 	// Se obtienen las ordenes con estudios del dia actual
 	getOrdersByRol() {
 		this.listOrders = [];
@@ -316,6 +328,7 @@ export class DownloadResultsComponent implements OnInit {
 
 	// Funcion encargada de la generacion de resultado y la posterior descarga en Pdf.
 	downloadResult(result_id, item, Results_state, name) {
+		this.toastSvc.info('Descargando resultado <b>individual</b> ...', '¡Un momento por favor!', this.options);
 		let arrayName = item.people_name.split(' ');
 		const peopleName = {
 			identification: item.identification,

@@ -35,5 +35,8 @@ export class AppointmentInfoService {
   getCenters(): Observable<any> {
     return this.http.get(this.api+'Centers/get.json', this.httpHeaders);
   }
+  getValidationAppointment(data: any): Observable<any> {
+    return this.http.post(this.api + 'AppointmentDates/getValidationAppointment.json', data, this.httpHeaders);
+  }
 }
 

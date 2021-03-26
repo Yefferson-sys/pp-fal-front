@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, Output, EventEmitter, SimpleChanges } from '@angular/core';
-import {  IMyOptions } from 'ng-uikit-pro-standard';
-import { appointmentsShedule, dateAddDays } from 'src/app/Global/appointment.functions';
+import {  IMyOptions, ToastService } from 'ng-uikit-pro-standard';
+import { appointmentsShedule, dateAddDays, dateAddMinutes, formatMonth } from 'src/app/Global/appointment.functions';
 import { AppointmentsData, AppointmentShedule, Center, MedicalOffices } from 'src/app/Models/appointment-info.model';
 import { Eps, Studio } from 'src/app/Models/assign-appointment.model';
 import { OptionsModal } from 'src/app/Models/dynamic-modal.model';
@@ -30,7 +30,7 @@ export class AppointmentInfoComponent implements OnInit {
   @Output() appointment = new EventEmitter<AppointmentShedule>();
   /************************************************************************************** */
   /** -> Declaración de variables */
-  keys: any = {medicalOffices: 'medicaOffices', data: 'data'}
+  keys: any = {message:	'message', success: 'success', medicalOffices: 'medicaOffices', data: 'data'}
   model: string;
   myDatePickerOptions: IMyOptions = {
     dayLabels: {
@@ -66,19 +66,24 @@ export class AppointmentInfoComponent implements OnInit {
   /************************************************************************************** */
   /** -> Instanción de funciones, módulos y servicios para utilizar dentro de la clase */
   constructor(
-    private appointmentInfosvc: AppointmentInfoService
+    private appointmentInfosvc: AppointmentInfoService,
+    private toastSvc: ToastService
   ) { }
   /************************************************************************************** */
   /** -> Función inicial  */
   ngOnInit(): void {
     let date = new Date();
     this.model =  dateAddDays(date, 3);
+    /*
     this.myDatePickerOptions.disableSince = {
-      year: 2021, month: 3, day: 24
+      year: 2021, month: 3, day: 30
     }
+    */
   }
   ngOnChanges(changes: SimpleChanges) {
     if(changes.dateMax?.currentValue) {
+      const options = {opacity: 1, enableHtml: true};
+      if(new Date(this.model) > new Date(changes.dateMax?.currentValue)) this.toastSvc.warning('<b>No hay agenda disponible en el momento ...</b>', '¡Agenda no disponible!', options);
       this.myDatePickerOptions.disableSince = {
         year: new Date(changes.dateMax.currentValue).getFullYear(), month: new Date(changes.dateMax.currentValue).getMonth()+1, day: new Date(changes.dateMax.currentValue).getDate()
       }
@@ -91,8 +96,19 @@ export class AppointmentInfoComponent implements OnInit {
    * @param event 
    */
   onDateChange(event: any) {
+    this.model = event.actualDateFormatted;
     this.appointmentShedule = null;
-    this.appointmentsShedule(event.actualDateFormatted);
+    const options = {opacity: 1, enableHtml: true};
+    this.toastSvc.clear();
+    if(new Date(this.model) <= new Date(this.dateMax)) { 
+      if (new Date(event.actualDateFormatted) >= new Date(this.dateMax)) {
+        const model = [parseInt(this.dateMax.split('-')[2])-1, formatMonth(this.dateMax.split('-')[1]), this.dateMax.split('-')[0]].join('/');
+        this.toastSvc.warning('Disponible hasta <b>'+ model +'</b>', '¡Horario no disponible!', options);
+      }
+      this.appointmentsShedule(event.actualDateFormatted);
+    } else {
+      this.toastSvc.warning('<b>No hay agenda disponible en el momento ...</b>', '¡Agenda no disponible!', options);
+    }
   }
   onInputFocusBlur(event: any) {
     
@@ -105,7 +121,12 @@ export class AppointmentInfoComponent implements OnInit {
    */
   onConfirm(event: any) {
     this.appointmentShedule = null;
-    this.appointment.emit(this.shedule);
+    let data: any = {
+      date_time_end: dateAddMinutes(new Date(this.shedule.date), this.studio.average_time),
+      date_time_ini: this.shedule.date,
+      idOffice: this.shedule.consulting_room_id
+    }
+    this.validationAppointment(data);
   }
   onDenied(event: any) {
     if(this.type == 'ASIGNAR') {
@@ -133,6 +154,26 @@ export class AppointmentInfoComponent implements OnInit {
         body: "¿Está seguro que desea reasignar cita?",
       }
     }
+  }
+  /***************************************************************************************** */
+  private validationAppointment(data: any) {
+    this.appointmentInfosvc.getValidationAppointment(data).subscribe(
+      success => {
+        const options = {opacity: 1, enableHtml: true};
+        if(success[this.keys.success]) {
+          this.appointment.emit(this.shedule);
+        } else {
+          this.toastSvc.warning('<b>'+success[this.keys.message]+'</b>', '¡Lo sentimos ...!', options);
+          this.appointmentsShedule(this.model);
+          setTimeout(() => {
+            document.getElementById('assignApp').click();
+          }, 4000);
+        }
+      },
+      error => {
+        console.error(error);
+      }
+    )
   }
   /***************************************************************************************** */
   /** -> Función encargada de obtener y asignar el rango de fecha disponible para cada consultorio

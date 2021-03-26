@@ -185,7 +185,7 @@
                             line-height: 0px;
                             color: #000000;
                         }
-                        .col-md-3 {
+                        .col-md-3, .order {
                             label {
                                 font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-normal) var(--unnamed-font-size-16)/35px var(--unnamed-font-family-roboto);
                                 letter-spacing: var(--unnamed-character-spacing-0);
@@ -216,7 +216,8 @@
             }
             input[type=checkbox] {
                 width: 20px;
-                height: 20px;    
+                height: 20px;  
+                margin-top: 10px;  
                 background: var(--unnamed-color-ffffff) 0% 0% no-repeat padding-box;
                 background: #FFFFFF 0% 0% no-repeat padding-box;
                 border: 2px solid #707070;
@@ -224,6 +225,14 @@
             }
         }
     }
+}
+
+.show-ctrl {
+    display: block;
+}
+
+.hide-ctrl {
+    display: none;
 }
 
 .modal {
@@ -294,6 +303,9 @@
     }
 }
 
+.resultIcon {
+    display: none;
+}
 
 @media screen and (min-width: 767px) and (max-width:1023px) {
     .container .row {
@@ -330,15 +342,24 @@
     .result-list {
         .col-md-1 {
             position: absolute;
-            width: 100%;
+            width: 10%;
             margin-top: 5px;
+        }
+        .resultIcon {
+            display: block;
+            cursor: pointer;
+            color: white;
+            position: absolute;
+            left: 142px;
+            bottom: 15px;
+            width: 20px;
         }
         .card .card-header .row {
             .col-md-1 {
                 position: absolute;
-                width: 100%;
+                width: 10%;
                 margin-top: 0px;
-                margin-left: 70%;
+                left: 80%;
             }
             .col-md-8 {
                 display: none;
