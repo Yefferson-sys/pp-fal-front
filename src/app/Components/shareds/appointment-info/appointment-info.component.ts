@@ -1,11 +1,13 @@
 import { Component, Input, OnInit, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import {  IMyOptions, ToastService } from 'ng-uikit-pro-standard';
-import { appointmentsShedule, dateAddDays, dateAddMinutes, formatMonth } from 'src/app/Global/appointment.functions';
+import { appointmentsShedule, dateAddMinutes, formatMonth } from 'src/app/Global/appointment.functions';
 import { AppointmentsData, AppointmentShedule, Center, MedicalOffices } from 'src/app/Models/appointment-info.model';
 import { Eps, Studio } from 'src/app/Models/assign-appointment.model';
 import { OptionsModal } from 'src/app/Models/dynamic-modal.model';
 import { People } from 'src/app/Models/user-profile.model';
 import { AppointmentInfoService } from 'src/app/Services/Appointment-Info/appointment-info.service';
+
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-appointment-info',
@@ -73,12 +75,7 @@ export class AppointmentInfoComponent implements OnInit {
   /** -> Función inicial  */
   ngOnInit(): void {
     let date = new Date();
-    this.model =  dateAddDays(date, 3);
-    /*
-    this.myDatePickerOptions.disableSince = {
-      year: 2021, month: 3, day: 30
-    }
-    */
+    this.model = moment().add(3, 'd').format('YYYY-MM-DD');
   }
   ngOnChanges(changes: SimpleChanges) {
     if(changes.dateMax?.currentValue) {

@@ -126,7 +126,7 @@ export function Aldeamo(type: string, people: People, appointment: Appointment) 
   let allowSendSMS = 0, dateSend = dateAddMinutes(new Date(), 0);
   if ( type == 'NUEVA' ) {
       let diff = diffDate(new Date(dateSend), new Date(appointment.date_time_ini), 'Hours');
-      if (diff > 24) {allowSendSMS = 1;}
+      if (diff > 24) {allowSendSMS = 0;}
       dateSend = subtractDate(new Date(appointment.date_time_ini), 24, 'Hours');
   }
   

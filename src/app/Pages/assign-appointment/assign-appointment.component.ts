@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastService } from 'ng-uikit-pro-standard';
 import { Aldeamo, appointmentsShedule, dateAddDays, dateAddMinutes, diffDate, subtractDate } from 'src/app/Global/appointment.functions';
@@ -10,6 +10,9 @@ import { AppointmentInfoService } from 'src/app/Services/Appointment-Info/appoin
 import { AssignAppointmentService } from 'src/app/Services/Assign-Appointment/assign-appointment.service';
 import { EditAppointmentService } from 'src/app/Services/Edit-Appointment/edit-appointment.service';
 import { UserProfileService } from 'src/app/Services/User-Profile/user-profile.service';
+
+import * as moment from 'moment';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-assign-appointment',
@@ -65,6 +68,18 @@ export class AssignAppointmentComponent implements OnInit {
     this.getCenters();
     this.getAppointmentNotOrderList();
   }
+
+  @HostListener('window:keyup', ['$event'])
+  keyEvent(event: KeyboardEvent) {
+    if (event.ctrlKey) {
+        if (event.key === 'v') {
+            this.onClickCups();
+            const options = {opacity: 1, enableHtml: true};
+            this.toastSvc.clear();
+            this.toastSvc.error('<b>¡Pegado inhabilitado temporalmente!</b>', '¡Debes digitar!', options);
+        }
+    }
+  }
   /***************************************************************************************** */
   /** -> Evento encargado de escuchar la selección de la eps (cliente).
    *  -> Yefferson Caleño
@@ -103,6 +118,7 @@ export class AssignAppointmentComponent implements OnInit {
    */
   onClickCups() {
     this.CUPS = '';
+    this.studio = null;
   }
   /***************************************************************************************** */
   /** -> Evento encargado de escuchar la selección del estudio.
@@ -118,7 +134,6 @@ export class AssignAppointmentComponent implements OnInit {
       }
       return true;
     })
-    console.log(this.studio);
     const options = {opacity: 1, enableHtml: true};
     this.toastSvc.clear();
     switch (this.studio.cup) {
@@ -141,7 +156,7 @@ export class AssignAppointmentComponent implements OnInit {
    * @param event 
    */
   onAppointment(event: AppointmentShedule) {
-    this.onClickCups();
+    this.CUPS = '';
     this.activeCups = false;
     const options = {opacity: 1, enableHtml: true};
     this.toastSvc.clear();
@@ -360,7 +375,7 @@ export class AssignAppointmentComponent implements OnInit {
         data.message = data.message.split('informa NUEVA').join('recuerda');
         this.assignAppointmentSvc.sendSmsAldeamo(data).subscribe(
           success => {
-            console.log(JSON.parse(success[this.keys.response]));
+            if(!environment.production) console.log(JSON.parse(success[this.keys.response]));
           },
           error => {
             console.error(error);
@@ -441,7 +456,6 @@ export class AssignAppointmentComponent implements OnInit {
   private saveAppointmentDates(appointmentId, appointmentDates) {
     this.assignAppointmentSvc.saveAppointmentDates(appointmentDates).subscribe(
       success => {
-        console.log(success);
         const options = {opacity: 1, enableHtml: true};
         if(success[this.keys.success]) {
           this.toastSvc.clear();
@@ -466,7 +480,6 @@ export class AssignAppointmentComponent implements OnInit {
   private saveAppointmentSupplies(appointmentId: number, onlyDate: string) {
     this.assignAppointmentSvc.saveAppointmentSupplies(appointmentId).subscribe(
       success => {
-        console.log(success);
         const options = {opacity: 1, enableHtml: true};
         if(success[this.keys.success]) {
           this.toastSvc.clear();
@@ -491,14 +504,14 @@ export class AssignAppointmentComponent implements OnInit {
   private getMedicalOfficesByStudio() {
     this.appointmentInfosvc.getMedicalOfficesByStudio(this.studio?.id).subscribe(
       success => {
-        console.log(success[this.keys.medicalOffices]);
         this.medicalOffices = success[this.keys.medicalOffices];
+        this.medicalOfficesId = [];
         if(this.medicalOfficesId.length == 0) {
           this.medicalOffices.forEach((e)=> {
             this.medicalOfficesId.push(e.MedicalOffices.id);
           })  
         }
-        let date = new Date(), onlyDate = (this.dateSelected)? this.dateSelected: dateAddDays(date, 3);
+        let date = new Date(), onlyDate = (this.dateSelected)? this.dateSelected: moment().add(3, 'd').format('YYYY-MM-DD');
         this.getAvailableDateGroups(onlyDate, this.medicalOfficesId);
       },
       error => {
@@ -526,7 +539,6 @@ export class AssignAppointmentComponent implements OnInit {
           this.medicalOffices[i].MedicalOffices.appointments = e.appointments;
           this.medicalOffices[i].MedicalOffices.medicalRestriction = e.medicalRestriction;
         })
-        console.log(onlyDate)
         this.appointmentShedule = appointmentsShedule(onlyDate, this.medicalOffices, this.studio.average_time);
       },
       error => {
@@ -564,7 +576,6 @@ export class AssignAppointmentComponent implements OnInit {
     this.studies = null;
     this.assignAppointmentSvc.getStudiesList(clientId, rateId).subscribe(
       success => {
-        console.log(success[this.keys.studies]);
         this.studies = success[this.keys.studies];
         this.toastSvc.clear();
         const options = {opacity: 1, enableHtml: true};

@@ -11,6 +11,8 @@ import { AssignAppointmentService } from 'src/app/Services/Assign-Appointment/as
 import { EditAppointmentService } from 'src/app/Services/Edit-Appointment/edit-appointment.service';
 import { UserProfileService } from 'src/app/Services/User-Profile/user-profile.service';
 
+import * as moment from 'moment';
+
 @Component({
   selector: 'app-edit-appointment',
   templateUrl: './edit-appointment.component.html',
@@ -169,7 +171,7 @@ export class EditAppointmentComponent implements OnInit {
             this.medicalOfficesId.push(e.MedicalOffices.id);
           })  
         }
-        let date = new Date(), onlyDate = dateAddDays(date, 3);
+        let date = new Date(), onlyDate = moment().add(3, 'd').format('YYYY-MM-DD');
         this.getAvailableDateGroups(onlyDate, this.medicalOfficesId);
       },
       error => {
